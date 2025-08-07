@@ -1,7 +1,6 @@
 package com.spribe.yablonskyi.testdata;
 
-import com.spribe.yablonskyi.config.ApplicationConfig;
-import com.spribe.yablonskyi.pojo.CreatePlayerRequestPojo;
+import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import com.spribe.yablonskyi.util.Randomizer;
 import com.spribe.yablonskyi.util.TimeUtil;
 
@@ -37,8 +36,8 @@ public class PlayerTestData {
         return "screen_" + Randomizer.getRandomAlphanumeric(3) + TimeUtil.getCurrentTimeStamp();
     }
 
-    public CreatePlayerRequestPojo generateValidPlayer() {
-        return new CreatePlayerRequestPojo()
+    public PlayerRequestPojo generateValidPlayer() {
+        return new PlayerRequestPojo()
                 .setAge(getValidAge())
                 .setGender(getValidGender())
                 .setLogin(getValidLogin())

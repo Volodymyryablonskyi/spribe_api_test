@@ -2,7 +2,7 @@ package com.spribe.yablonskyi.pojo;
 
 import java.util.Objects;
 
-public class CreatePlayerRequestPojo {
+public class PlayerRequestPojo {
 
     private String age;
     private String gender;
@@ -15,7 +15,7 @@ public class CreatePlayerRequestPojo {
         return age;
     }
 
-    public CreatePlayerRequestPojo setAge(String age) {
+    public PlayerRequestPojo setAge(String age) {
         this.age = age;
         return this;
     }
@@ -24,7 +24,7 @@ public class CreatePlayerRequestPojo {
         return gender;
     }
 
-    public CreatePlayerRequestPojo setGender(String gender) {
+    public PlayerRequestPojo setGender(String gender) {
         this.gender = gender;
         return this;
     }
@@ -33,7 +33,7 @@ public class CreatePlayerRequestPojo {
         return login;
     }
 
-    public CreatePlayerRequestPojo setLogin(String login) {
+    public PlayerRequestPojo setLogin(String login) {
         this.login = login;
         return this;
     }
@@ -42,7 +42,7 @@ public class CreatePlayerRequestPojo {
         return password;
     }
 
-    public CreatePlayerRequestPojo setPassword(String password) {
+    public PlayerRequestPojo setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -51,7 +51,7 @@ public class CreatePlayerRequestPojo {
         return role;
     }
 
-    public CreatePlayerRequestPojo setRole(String role) {
+    public PlayerRequestPojo setRole(String role) {
         this.role = role;
         return this;
     }
@@ -60,7 +60,7 @@ public class CreatePlayerRequestPojo {
         return screenName;
     }
 
-    public CreatePlayerRequestPojo setScreenName(String screenName) {
+    public PlayerRequestPojo setScreenName(String screenName) {
         this.screenName = screenName;
         return this;
     }
@@ -81,7 +81,7 @@ public class CreatePlayerRequestPojo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CreatePlayerRequestPojo that = (CreatePlayerRequestPojo) o;
+        PlayerRequestPojo that = (PlayerRequestPojo) o;
         return Objects.equals(age, that.age) &&
                 Objects.equals(gender, that.gender) &&
                 Objects.equals(login, that.login) &&

@@ -4,11 +4,38 @@
        parallel="methods"
        thread-count="3">
 
+    <listeners>
+        <listener class-name="com.spribe.yablonskyi.listeners.RetryTransformer"/>
+        <listener class-name="com.spribe.yablonskyi.listeners.GlobalTestListener"/>
+    </listeners>
 
     <test name="Create Player Tests">
-        <parameter name="editor" value="${editor}"/>
         <classes>
             <class name="com.spribe.yablonskyi.tests.CreatePlayerTests"/>
+        </classes>
+    </test>
+
+    <test name="Delete Player Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.DeletePlayerTests"/>
+        </classes>
+    </test>
+
+    <test name="Update Player Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.UpdatePlayerTests"/>
+        </classes>
+    </test>
+
+    <test name="Get All Players Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.GetAllPlayersTests"/>
+        </classes>
+    </test>
+
+    <test name="Get Player Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.GetPlayerTests"/>
         </classes>
     </test>
 

@@ -3,7 +3,9 @@ package com.spribe.yablonskyi.http.response;
 import com.spribe.yablonskyi.util.CustomLogger;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import org.testng.Assert;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ResponseWrapper {
@@ -66,8 +68,28 @@ public class ResponseWrapper {
         return new ResponseWrapper(null);
     }
 
-    public ResponseVerifier verify() {
-        return new ResponseVerifier(this);
+
+    public ResponseWrapper verifyStatusCode(int expected) {
+        log.info("Verify that Response status code is equal to - {}", expected);
+        int actual = statusCode();
+        Assert.assertEquals(actual, expected, "Expected status code " + expected + " but got " + actual);
+        return this;
+    }
+
+    public ResponseWrapper verifyStatusCodeIn(int... expectedStatusCodes) {
+        int actual = statusCode();
+        log.info("Verify that Response status code is in {}", Arrays.toString(expectedStatusCodes));
+        boolean found = Arrays.stream(expectedStatusCodes).anyMatch(code -> code == actual);
+        Assert.assertTrue(found, "Status code " + actual + " is not in " + Arrays.toString(expectedStatusCodes));
+        return this;
+    }
+
+    public ResponseWrapper verifyStatus200() {
+        return verifyStatusCode(200);
+    }
+
+    public ResponseWrapper verifyStatus403() {
+        return verifyStatusCode(403);
     }
 
 

@@ -6,7 +6,7 @@ import com.spribe.yablonskyi.http.request.HttpMethods;
 import com.spribe.yablonskyi.http.response.ResponseWrapper;
 import com.spribe.yablonskyi.pojo.GetPlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.DeletePlayerRequestPojo;
-import com.spribe.yablonskyi.pojo.CreatePlayerRequestPojo;
+import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import com.spribe.yablonskyi.util.CustomLogger;
 import com.spribe.yablonskyi.util.PojoConverter;
 import io.restassured.specification.RequestSpecification;
@@ -21,7 +21,7 @@ public class PlayersApiClient extends BaseApiClient<PlayerEndpoints> {
         super(spec, Constants.BASE_URI, new PlayerEndpoints());
     }
 
-    public ResponseWrapper createPlayer(String editor, CreatePlayerRequestPojo request) {
+    public ResponseWrapper createPlayer(String editor, PlayerRequestPojo request) {
         log.info("Create new player: {}", request.toString());
         Map<String, String> queryParams = PojoConverter.toQueryParams(request);
         return request(
@@ -49,7 +49,7 @@ public class PlayersApiClient extends BaseApiClient<PlayerEndpoints> {
         );
     }
 
-    public ResponseWrapper updatePlayer(String editor, long id, CreatePlayerRequestPojo request) {
+    public ResponseWrapper updatePlayer(String editor, long id, PlayerRequestPojo request) {
         return request(
                 HttpMethods.PATCH,
                 endpoints.getUpdateUri(editor, id),

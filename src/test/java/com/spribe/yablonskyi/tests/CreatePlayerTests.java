@@ -1,24 +1,23 @@
 package com.spribe.yablonskyi.tests;
 
 import com.spribe.yablonskyi.assertions.PlayerVerifier;
-import com.spribe.yablonskyi.base.BaseTest;
-import com.spribe.yablonskyi.http.response.ResponseWrapper;
-import com.spribe.yablonskyi.pojo.CreatePlayerRequestPojo;
+import com.spribe.yablonskyi.base.BasePlayerTest;
+import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.PlayerResponsePojo;
 import jdk.jfr.Description;
 import org.testng.annotations.Test;
 
-public class CreatePlayerTests extends BaseTest {
+public class CreatePlayerTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             description = "Verify that a player can be created with valid data",
             groups = {"regression", "api", "player", "create-player", "create-player-positive", "create-player"})
     @Description("Ensure that a player can be created with valid data using given editor role")
     public void shouldCreatePlayerWithValidData() {
-        CreatePlayerRequestPojo expected = testData.generateValidPlayer();
-        ResponseWrapper response = playersApiClient.createPlayer(SUPERVISOR, expected);
-        response.verify().statusCode200();
-        PlayerResponsePojo actual = response.asPojo(PlayerResponsePojo.class);
+        PlayerRequestPojo expected = testData.generateValidPlayer();
+        PlayerResponsePojo actual =  playersApiClient.createPlayer(SUPERVISOR, expected)
+                .verifyStatus200()
+                .asPojo(PlayerResponsePojo.class);
         createdPlayerId.set(actual.getId());
         PlayerVerifier.verifyThat(actual)
                 .hasValidId()
@@ -32,11 +31,11 @@ public class CreatePlayerTests extends BaseTest {
             groups = {"regression", "api", "player", "create-player", "create-player-positive", "create-player-without-password"})
     @Description("Ensure that player can be created without password using given editor role")
     public void shouldCreatePlayerWithoutPassword() {
-        CreatePlayerRequestPojo expected = testData.generateValidPlayer();
-        expected.setPassword(null);
-        ResponseWrapper response = playersApiClient.createPlayer(SUPERVISOR, expected);
-        response.verify().statusCode200();
-        PlayerResponsePojo actual = response.asPojo(PlayerResponsePojo.class);
+        PlayerRequestPojo expected = testData.generateValidPlayer()
+                .setPassword(null);
+        PlayerResponsePojo actual = playersApiClient.createPlayer(SUPERVISOR, expected)
+                .verifyStatus200()
+                .asPojo(PlayerResponsePojo.class);
         createdPlayerId.set(actual.getId());
         PlayerVerifier.verifyThat(actual)
                 .hasValidId()
@@ -50,11 +49,11 @@ public class CreatePlayerTests extends BaseTest {
             groups = {"regression", "api", "player", "create-player", "create-player-positive",  "create-player-edge-age"})
     @Description("Ensure that player can be created with age 18 or 60 using given editor role")
     public void shouldCreatePlayerWithEdgeValidAge(String validAge) {
-        CreatePlayerRequestPojo expected = testData.generateValidPlayer();
-        expected.setAge(validAge);
-        ResponseWrapper response = playersApiClient.createPlayer(SUPERVISOR, expected);
-        response.verify().statusCode200();
-        PlayerResponsePojo actual = response.asPojo(PlayerResponsePojo.class);
+        PlayerRequestPojo expected = testData.generateValidPlayer()
+                .setAge(validAge);
+        PlayerResponsePojo actual = playersApiClient.createPlayer(SUPERVISOR, expected)
+                .verifyStatus200()
+                .asPojo(PlayerResponsePojo.class);
         createdPlayerId.set(actual.getId());
         PlayerVerifier.verifyThat(actual)
                 .hasValidId()
@@ -68,17 +67,16 @@ public class CreatePlayerTests extends BaseTest {
             groups = {"regression", "api", "player", "create-player", "create-player-negative", "create-player-missing-req-field"})
     @Description("Ensure that missing required fields cause error response using given editor role")
     public void shouldReturnErrorWhenRequiredFieldMissing(String missingField) {
-        CreatePlayerRequestPojo expected = testData.generateValidPlayer();
+        PlayerRequestPojo expected = testData.generateValidPlayer();
         try {
-            var field = CreatePlayerRequestPojo.class.getDeclaredField(missingField);
+            var field = PlayerRequestPojo.class.getDeclaredField(missingField);
             field.setAccessible(true);
             field.set(expected, null);
         } catch (Exception e) {
             throw new RuntimeException("Failed to nullify field: " + missingField, e);
         }
         playersApiClient.createPlayer(SUPERVISOR, expected)
-                .verify()
-                .statusCodeIsIn(400, 403);
+                .verifyStatus403();
     }
 
     @Test(alwaysRun = true,
@@ -87,11 +85,10 @@ public class CreatePlayerTests extends BaseTest {
             groups = {"regression", "api", "player", "create-player", "create-player-negative", "create-player-invalid-age"})
     @Description("Ensure that player creation fails for invalid age values using given editor role")
     public void shouldNotCreatePlayerWithInvalidAge(String invalidAge) {
-        CreatePlayerRequestPojo player = testData.generateValidPlayer();
-        player.setAge(invalidAge);
+        PlayerRequestPojo player = testData.generateValidPlayer()
+                .setAge(invalidAge);
         playersApiClient.createPlayer(SUPERVISOR, player)
-                .verify()
-                .statusCodeIsIn(400, 403);
+                .verifyStatus403();
     }
 
     @Test(alwaysRun = true,
@@ -100,11 +97,10 @@ public class CreatePlayerTests extends BaseTest {
             groups = {"regression", "api", "player", "create-player", "create-player-negative", "create-player-invalid-gender"})
     @Description("Ensure that player creation fails for invalid gender values using given editor role")
     public void shouldNotCreatePlayerWithInvalidGender(String invalidGender) {
-        CreatePlayerRequestPojo player = testData.generateValidPlayer();
-        player.setGender(invalidGender);
+        PlayerRequestPojo player = testData.generateValidPlayer()
+                .setGender(invalidGender);
         playersApiClient.createPlayer(SUPERVISOR, player)
-                .verify()
-                .statusCodeIsIn(400, 403);
+                .verifyStatusCode(403);
     }
 
 }
