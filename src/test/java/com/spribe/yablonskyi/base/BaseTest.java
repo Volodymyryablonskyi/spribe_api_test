@@ -24,5 +24,4 @@ public class BaseTest {
         isRerun.set(rerun);
     }
 
-
 }

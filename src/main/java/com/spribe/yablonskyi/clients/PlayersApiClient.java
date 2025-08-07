@@ -1,7 +1,5 @@
 package com.spribe.yablonskyi.clients;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spribe.yablonskyi.endpoints.PlayerEndpoints;
 import com.spribe.yablonskyi.http.request.HttpMethods;
 import com.spribe.yablonskyi.http.response.ResponseWrapper;
