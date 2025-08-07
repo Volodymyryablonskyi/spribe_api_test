@@ -8,7 +8,9 @@ public class BasePlayerTest extends BaseTest {
     protected PlayersApiClient playersApiClient;
 
     @BeforeMethod(alwaysRun = true)
-    public void initPlayersClient() {
+    @Override
+    public void setUp() {
+        super.setUp();
         playersApiClient = new PlayersApiClient(spec);
     }
 

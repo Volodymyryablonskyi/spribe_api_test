@@ -1,5 +1,6 @@
 package com.spribe.yablonskyi.http.request;
 
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
@@ -60,16 +61,15 @@ public class RequestBuilder {
     }
 
     public Response send() {
-        RequestSpecification request = spec;
-        if (!queryParams.isEmpty()) {
-            request = request.queryParams(queryParams);
+        if (path == null) {
+            throw new IllegalArgumentException("URI Path value is null");
         }
-        if (!headers.isEmpty()) {
-            request = request.headers(headers);
-        }
-        if (!Objects.isNull(body)) {
-            request = request.body(body);
-        }
+        var request = RestAssured
+                .given()
+                .spec(spec);
+        if (!queryParams.isEmpty()) request.queryParams(queryParams);
+        if (!headers.isEmpty()) request.headers(headers);
+        if (!Objects.isNull(body)) request.body(body);
         return switch (method) {
             case GET -> request.get(path);
             case POST -> request.post(path);
@@ -78,6 +78,5 @@ public class RequestBuilder {
             case DELETE -> request.delete(path);
         };
     }
-
 
 }
