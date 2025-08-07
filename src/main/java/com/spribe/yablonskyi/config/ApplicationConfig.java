@@ -33,8 +33,4 @@ public class ApplicationConfig {
         return Integer.parseInt(properties.getProperty("http.socket.timeout"));
     }
 
-    public static String getEditor() {
-        return properties.getProperty("default.editor");
-    }
-
 }

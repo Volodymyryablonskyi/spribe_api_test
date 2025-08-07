@@ -7,6 +7,10 @@ public class TimeUtil {
 
     public static LocalTime getCurrentTime() { return LocalTime.now(); }
 
+    public static long getCurrentTimeStamp() {
+        return System.currentTimeMillis();
+    }
+
     public static long getDuration(LocalTime start, LocalTime end) {
         return start.until(end, ChronoUnit.SECONDS);
     }

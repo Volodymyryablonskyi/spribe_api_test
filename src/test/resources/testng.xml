@@ -6,6 +6,7 @@
 
 
     <test name="Create Player Tests">
+        <parameter name="editor" value="${editor}"/>
         <classes>
             <class name="com.spribe.yablonskyi.tests.CreatePlayerTests"/>
         </classes>

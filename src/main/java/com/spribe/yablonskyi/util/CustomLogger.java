@@ -6,6 +6,7 @@ import io.qameta.allure.Allure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -54,14 +55,31 @@ public class CustomLogger {
         logAllure(message + ": " + throwable.getMessage());
     }
 
-    public void logRequest(HttpMethods method, String endpoint, Object body) {
-        String pretty = JsonConverter.prettifyJson(body);
-        info("Sending {} request to: {}", method, endpoint);
-        info("Request body:\n{}", pretty);
+    public void logRequest(HttpMethods method, String uri, Map<String, String> queryParams, Object body) {
+        info("Sending {} request to: {}", method, uri);
+        if (!Objects.isNull(queryParams) && !queryParams.isEmpty()) {
+            info(formatQueryParams(queryParams));
+        }
+        if (!Objects.isNull(body)) {
+            String pretty = JsonConverter.prettifyJson(body);
+            info("Request body:\n{}", pretty);
+        }
     }
 
-    public void logRequest(HttpMethods method, String endpoint) {
-        info("Sending {} request to: {}", method, endpoint);
+    public void logRequest(HttpMethods method, String uri, Object body) {
+        logRequest(method, uri, null, body);
+    }
+
+    public void logRequest(HttpMethods method, String uri) {
+        logRequest(method, uri, null, null);
+    }
+
+    private String formatQueryParams(Map<String, String> queryParams) {
+        StringBuilder sb = new StringBuilder("Query parameters:\n");
+        queryParams.forEach((key, value) ->
+                sb.append("  ").append(key).append(" = ").append(value).append("\n")
+        );
+        return sb.toString().trim();
     }
 
     public void logResponse(ResponseWrapper response) {

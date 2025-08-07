@@ -30,6 +30,11 @@ public class ResponseWrapper {
         return response.jsonPath();
     }
 
+
+    public <T> T getJsonValue(String jsonPath, Class<T> clazz) {
+        return getJsonPath().getObject(jsonPath, clazz);
+    }
+
     public <T> T asPojo(Class<T> clz) {
         return response.as(clz);
     }
@@ -59,6 +64,10 @@ public class ResponseWrapper {
 
     public static ResponseWrapper empty() {
         return new ResponseWrapper(null);
+    }
+
+    public ResponseVerifier verify() {
+        return new ResponseVerifier(this);
     }
 
 

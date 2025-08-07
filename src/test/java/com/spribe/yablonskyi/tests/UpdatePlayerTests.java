@@ -1,7 +1,7 @@
 package com.spribe.yablonskyi.tests;
 
-import com.spribe.yablonskyi.base.BasePlayerTest;
+import com.spribe.yablonskyi.base.BaseTest;
 
-public class UpdatePlayerTests extends BasePlayerTest {
+public class UpdatePlayerTests extends BaseTest {
 
 }

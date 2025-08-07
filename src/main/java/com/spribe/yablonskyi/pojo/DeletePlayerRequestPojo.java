@@ -1,6 +1,6 @@
 package com.spribe.yablonskyi.pojo;
 
-public class PlayerIdRequest {
+public class DeletePlayerRequestPojo {
 
     private long playerId;
 
@@ -8,7 +8,7 @@ public class PlayerIdRequest {
         return playerId;
     }
 
-    public PlayerIdRequest setPlayerId(long playerId) {
+    public DeletePlayerRequestPojo setPlayerId(long playerId) {
         this.playerId = playerId;
         return this;
     }

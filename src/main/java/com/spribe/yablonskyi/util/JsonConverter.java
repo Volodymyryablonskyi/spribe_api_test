@@ -7,7 +7,10 @@ import com.google.gson.JsonParser;
 
 public class JsonConverter {
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder()
+            .serializeNulls()
+            .setPrettyPrinting()
+            .create();
 
     public static String prettifyJson(Object object) {
         return gson.toJson(object);
