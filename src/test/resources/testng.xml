@@ -1,0 +1,10 @@
+<suite name="Players API Automation Suite"
+       verbose="2"
+       time-out="30000"
+       parallel="methods"
+       thread-count="3">
+
+
+
+
+</suite>
