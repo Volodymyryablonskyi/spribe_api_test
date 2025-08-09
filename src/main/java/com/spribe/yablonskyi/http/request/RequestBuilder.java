@@ -8,6 +8,7 @@ import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public class RequestBuilder {
 
@@ -70,9 +71,7 @@ public class RequestBuilder {
             throw new IllegalArgumentException("URI Path value is null");
         }
         String fullUri = baseUri + path;
-        var request = RestAssured
-                .given()
-                .spec(spec);
+        var request = RestAssured.given().spec(spec);
         if (!queryParams.isEmpty()) request.queryParams(queryParams);
         if (!headers.isEmpty()) request.headers(headers);
         if (!Objects.isNull(body)) request.body(body);

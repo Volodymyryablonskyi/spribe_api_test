@@ -18,6 +18,7 @@
         <jackson.version>2.19.2</jackson.version>
         <io.vavr.version>0.10.7</io.vavr.version>
         <allure.version>2.29.1</allure.version>
+        <threads>3</threads>
     </properties>
 
 
@@ -92,6 +93,7 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
 
@@ -106,6 +108,7 @@
                     <testFailureIgnore>false</testFailureIgnore>
                     <systemPropertyVariables>
                         <allure.results.directory>target/allure-results</allure.results.directory>
+                        <threads>${threads}</threads>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

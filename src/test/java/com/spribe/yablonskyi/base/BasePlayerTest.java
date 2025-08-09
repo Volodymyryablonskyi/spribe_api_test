@@ -18,13 +18,11 @@ import java.util.Deque;
 public class BasePlayerTest extends BaseTest {
 
     protected static final String BASE_URL = ApplicationConfig.getBaseUri();
-    protected static final String SUPERVISOR = Role.SUPERVISOR.getLogin();
-    protected static final String ADMIN = Role.ADMIN.getLogin();
-
-    private final ThreadLocal<Deque<Long>> createdIds = ThreadLocal.withInitial(ArrayDeque::new);
-    private final ThreadLocal<PlayerDataGenerator> playersDataGenerator = ThreadLocal.withInitial(PlayerDataGenerator::new);
+    protected final static String SUPERVISOR = Role.SUPERVISOR.getLogin();
+    protected final static String ADMIN = Role.ADMIN.getLogin();
+    protected final ThreadLocal<Deque<Long>> createdIds = ThreadLocal.withInitial(ArrayDeque::new);
+    protected final ThreadLocal<PlayerDataGenerator> playersDataGenerator = ThreadLocal.withInitial(PlayerDataGenerator::new);
     protected PlayersApiClient playersApiClient;
-
 
     @BeforeClass(alwaysRun = true)
     public void initContext() {
@@ -68,6 +66,14 @@ public class BasePlayerTest extends BaseTest {
         return playersApiClient.deletePlayer(editorLogin, del);
     }
 
-    private void registerForCleanup(long id) { createdIds.get().addFirst(id); }
+    protected void registerForCleanup(long id) { createdIds.get().addFirst(id); }
+
+    protected PlayerResponsePojo fetchPlayer(long id) {
+        var resp = playersApiClient.getPlayerById(id);
+        if (!resp.statusCode().equals(StatusCode._200_OK)) {
+            throw new AssertionError("GET by id failed. code=" + resp.statusCode() + " body=" + resp.asString());
+        }
+        return resp.asPojo(PlayerResponsePojo.class);
+    }
 
 }

@@ -2,11 +2,12 @@ package com.spribe.yablonskyi.config;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Properties;
 
 public class ApplicationConfig {
 
-    private static final Properties properties = new Properties();
+    private static final Properties PROPS = new Properties();
     private static final String PROPERTY_FILE_PATH = "application.properties";
 
     static {
@@ -15,22 +16,35 @@ public class ApplicationConfig {
             if (input == null) {
                 throw new RuntimeException(PROPERTY_FILE_PATH + " not found in resources");
             }
-            properties.load(input);
+            PROPS.load(input);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load " + PROPERTY_FILE_PATH, e);
         }
     }
 
     public static String getBaseUri() {
-        return properties.getProperty("base.uri");
+        return getProp("base.uri");
+    }
+
+    public static int getThreadPoolSize() {
+        return getIntProp("threads");
     }
 
     public static int getConnectionTimeout() {
-        return Integer.parseInt(properties.getProperty("http.connection.timeout"));
+        return getIntProp("http.connection.timeout");
     }
 
     public static int getSocketTimeout() {
-        return Integer.parseInt(properties.getProperty("http.socket.timeout"));
+        return getIntProp("http.socket.timeout");
+    }
+
+    private static String getProp(String key) {
+        return Optional.ofNullable(System.getProperty(key))
+                .orElseGet(() -> PROPS.getProperty(key));
+    }
+
+    private static int getIntProp(String key) {
+        return Integer.parseInt(getProp(key));
     }
 
 }

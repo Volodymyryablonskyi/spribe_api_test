@@ -77,28 +77,19 @@ public class ResponseWrapper {
     }
 
 
-    public ResponseWrapper verifyStatusCode(StatusCode expected) {
+    public ResponseWrapper verifyStatusCode(StatusCode expected, String error)  {
         log.info("Verify that Response status code is equal to - {}", expected);
-        int actual = statusCode();
-        Assert.assertEquals(actual, expected, "Expected status code " + expected + " but got " + actual);
+        StatusCode actual = statusCode();
+        Assert.assertEquals(actual, expected, error + " " + expected + " but got " + actual);
         return this;
     }
 
-    public ResponseWrapper verifyStatusCodeIn(int... expectedStatusCodes) {
-        int actual = statusCode();
+    public ResponseWrapper verifyStatusCodeIn(StatusCode... expectedStatusCodes) {
+        StatusCode actual = statusCode();
         log.info("Verify that Response status code is in {}", Arrays.toString(expectedStatusCodes));
-        boolean found = Arrays.stream(expectedStatusCodes).anyMatch(code -> code == actual);
+        boolean found = Arrays.asList(expectedStatusCodes).contains(actual);
         Assert.assertTrue(found, "Status code " + actual + " is not in " + Arrays.toString(expectedStatusCodes));
         return this;
     }
-
-    public ResponseWrapper verifyStatus200() {
-        return verifyStatusCode(200);
-    }
-
-    public ResponseWrapper verifyStatus403() {
-        return verifyStatusCode(403);
-    }
-
 
 }

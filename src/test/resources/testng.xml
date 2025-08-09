@@ -2,12 +2,18 @@
        verbose="2"
        time-out="30000"
        parallel="methods"
-       thread-count="3">
+       thread-count="${threads}">
 
     <listeners>
         <listener class-name="com.spribe.yablonskyi.listeners.RetryTransformer"/>
         <listener class-name="com.spribe.yablonskyi.listeners.GlobalTestListener"/>
     </listeners>
+
+    <test name="Editor Access Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.access.RolesAccessTests";
+        </classes>
+    </test>
 
     <test name="Create Player Tests">
         <classes>
