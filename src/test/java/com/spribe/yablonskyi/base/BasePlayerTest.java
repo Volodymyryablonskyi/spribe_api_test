@@ -1,7 +1,9 @@
 package com.spribe.yablonskyi.base;
 
+import com.spribe.yablonskyi.assertions.PlayerVerifier;
 import com.spribe.yablonskyi.clients.PlayersApiClient;
 import com.spribe.yablonskyi.config.ApplicationConfig;
+import com.spribe.yablonskyi.constants.Constants;
 import com.spribe.yablonskyi.data.PlayerDataGenerator;
 import com.spribe.yablonskyi.data.Role;
 import com.spribe.yablonskyi.http.response.ResponseWrapper;
@@ -17,7 +19,7 @@ import java.util.Deque;
 
 public class BasePlayerTest extends BaseTest {
 
-    protected static final String BASE_URL = ApplicationConfig.getBaseUri();
+    protected static final String BASE_URL = Constants.BASE_URI;
     protected final static String SUPERVISOR = Role.SUPERVISOR.getLogin();
     protected final static String ADMIN = Role.ADMIN.getLogin();
     protected final ThreadLocal<Deque<Long>> createdIds = ThreadLocal.withInitial(ArrayDeque::new);
@@ -43,7 +45,6 @@ public class BasePlayerTest extends BaseTest {
     protected PlayerResponsePojo createUser(Role targetRole, String editorLogin) {
         PlayerRequestPojo request = playersDataGenerator.get().generateValidPlayer(targetRole.getLogin());
         ResponseWrapper resp = playersApiClient.createPlayer(editorLogin, request);
-
         if (!resp.statusCode().equals(StatusCode._200_OK) && !resp.statusCode().equals(StatusCode._201_CREATED)) {
             throw new AssertionError("Failed to create user. code=" + resp.statusCode() + " body=" + resp.asString());
         }
@@ -54,7 +55,9 @@ public class BasePlayerTest extends BaseTest {
 
     protected ResponseWrapper callCreate(Role targetRole, String editorLogin) {
         PlayerRequestPojo req = playersDataGenerator.get().generateValidPlayer(targetRole.getLogin());
-        return playersApiClient.createPlayer(editorLogin, req);
+        ResponseWrapper resp =  playersApiClient.createPlayer(editorLogin, req);
+        registerIfCreated(resp);
+        return resp;
     }
 
     protected ResponseWrapper callUpdate(long id, String editorLogin, PlayerRequestPojo partial) {
@@ -74,6 +77,27 @@ public class BasePlayerTest extends BaseTest {
             throw new AssertionError("GET by id failed. code=" + resp.statusCode() + " body=" + resp.asString());
         }
         return resp.asPojo(PlayerResponsePojo.class);
+    }
+
+    protected void verifyPlayerCreatedCorrectly(PlayerRequestPojo expected, long id) {
+        ResponseWrapper getResp = playersApiClient.getPlayerById(id);
+        if (!getResp.statusCode().equals(StatusCode._200_OK)) {
+            throw new AssertionError("GET by id failed. code=" + getResp.statusCode() + " body=" + getResp.asString());
+        }
+
+        PlayerResponsePojo actual = getResp.asPojo(PlayerResponsePojo.class);
+        PlayerVerifier.verifyThat(actual)
+                .matches(expected)
+                .hasValidId()
+                .assertAll();
+    }
+    protected void registerIfCreated(ResponseWrapper resp) {
+        if (resp.statusCode() == StatusCode._200_OK || resp.statusCode() == StatusCode._201_CREATED) {
+            Long id = resp.getId();
+            if (id != null && id > 0) {
+                registerForCleanup(id);
+            }
+        }
     }
 
 }

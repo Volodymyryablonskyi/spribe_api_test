@@ -76,11 +76,10 @@ public class ResponseWrapper {
         return new ResponseWrapper(null);
     }
 
-
-    public ResponseWrapper verifyStatusCode(StatusCode expected, String error)  {
+    public ResponseWrapper verifyStatusCode(StatusCode expected)  {
         log.info("Verify that Response status code is equal to - {}", expected);
         StatusCode actual = statusCode();
-        Assert.assertEquals(actual, expected, error + " " + expected + " but got " + actual);
+        Assert.assertEquals(actual, expected, "Status Code mismatch - expected " + expected + " but got " + actual);
         return this;
     }
 
@@ -90,6 +89,10 @@ public class ResponseWrapper {
         boolean found = Arrays.asList(expectedStatusCodes).contains(actual);
         Assert.assertTrue(found, "Status code " + actual + " is not in " + Arrays.toString(expectedStatusCodes));
         return this;
+    }
+
+    public ResponseWrapper verifyStatusCodeCreated() {
+        return verifyStatusCodeIn(StatusCode._200_OK, StatusCode._201_CREATED);
     }
 
 }
