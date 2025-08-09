@@ -1,68 +1,73 @@
 package com.spribe.yablonskyi.base;
 
 import com.spribe.yablonskyi.clients.PlayersApiClient;
+import com.spribe.yablonskyi.config.ApplicationConfig;
+import com.spribe.yablonskyi.data.PlayerDataGenerator;
+import com.spribe.yablonskyi.data.Role;
+import com.spribe.yablonskyi.http.response.ResponseWrapper;
+import com.spribe.yablonskyi.http.response.StatusCode;
 import com.spribe.yablonskyi.pojo.DeletePlayerRequestPojo;
-import com.spribe.yablonskyi.testdata.PlayerTestData;
+import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
+import com.spribe.yablonskyi.pojo.PlayerResponsePojo;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 
-import java.util.Objects;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class BasePlayerTest extends BaseTest {
 
-    protected static final String SUPERVISOR = "supervisor";
-    protected static final ThreadLocal<Long> createdPlayerId = new ThreadLocal<>();
+    protected static final String BASE_URL = ApplicationConfig.getBaseUri();
+    protected static final String SUPERVISOR = Role.SUPERVISOR.getLogin();
+    protected static final String ADMIN = Role.ADMIN.getLogin();
+
+    private final ThreadLocal<Deque<Long>> createdIds = ThreadLocal.withInitial(ArrayDeque::new);
+    private final ThreadLocal<PlayerDataGenerator> playersDataGenerator = ThreadLocal.withInitial(PlayerDataGenerator::new);
     protected PlayersApiClient playersApiClient;
-    protected PlayerTestData testData;
+
 
     @BeforeClass(alwaysRun = true)
     public void initContext() {
         this.playersApiClient = new PlayersApiClient(spec);
-        this.testData = new PlayerTestData();
     }
 
-
     @AfterMethod(alwaysRun = true)
-    public void deleteCreatedPlayer() {
-        Long playerId = createdPlayerId.get();
-        if (!Objects.isNull(playerId)) {
+    public void cleanup() {
+        Deque<Long> stack = createdIds.get();
+        while (!stack.isEmpty()) {
+            long id = stack.pollFirst();
             try {
-                DeletePlayerRequestPojo deletePlayerRequest = new DeletePlayerRequestPojo().setPlayerId(playerId);
-                playersApiClient.deletePlayer(SUPERVISOR, deletePlayerRequest);
-            } catch (Exception e) {
-                System.err.println("❌ Failed to delete player with ID: " + playerId + " → " + e.getMessage());
-            } finally {
-                createdPlayerId.remove();
-            }
+                playersApiClient.deletePlayer(SUPERVISOR, new DeletePlayerRequestPojo().setPlayerId(id));
+            } catch (Throwable ignored) {  }
         }
     }
 
-    @DataProvider(name = "editors", parallel = true)
-    public Object[][] editors() {
-        return new Object[][]{{"supervisor"}, {"admin"}};
+    protected PlayerResponsePojo createUser(Role targetRole, String editorLogin) {
+        PlayerRequestPojo request = playersDataGenerator.get().generateValidPlayer(targetRole.getLogin());
+        ResponseWrapper resp = playersApiClient.createPlayer(editorLogin, request);
+
+        if (!resp.statusCode().equals(StatusCode._200_OK) && !resp.statusCode().equals(StatusCode._201_CREATED)) {
+            throw new AssertionError("Failed to create user. code=" + resp.statusCode() + " body=" + resp.asString());
+        }
+        PlayerResponsePojo created = resp.asPojo(PlayerResponsePojo.class);
+        registerForCleanup(created.getId());
+        return created;
     }
 
-    @DataProvider(name = "missingRequiredFields", parallel = true)
-    public Object[][] missingRequiredFields() {
-        return new Object[][]{{"age"}, {"gender"}, {"login"}, {"role"}, {"screenName"}};
+    protected ResponseWrapper callCreate(Role targetRole, String editorLogin) {
+        PlayerRequestPojo req = playersDataGenerator.get().generateValidPlayer(targetRole.getLogin());
+        return playersApiClient.createPlayer(editorLogin, req);
     }
 
-    @DataProvider(name = "invalidAges", parallel = true)
-    public Object[][] invalidAges() {
-        return new Object[][]{{"17"}, {"61"}, {"0"}, {"-5"}, {"150"}};
+    protected ResponseWrapper callUpdate(long id, String editorLogin, PlayerRequestPojo partial) {
+        return playersApiClient.updatePlayer(editorLogin, id, partial);
     }
 
-    @DataProvider(name = "edgeAges", parallel = true)
-    public Object[][] edgeAges() {
-        return new Object[][]{{"18"}, {"60"}};
+    protected ResponseWrapper callDelete(long id, String editorLogin) {
+        DeletePlayerRequestPojo del = new DeletePlayerRequestPojo().setPlayerId(id);
+        return playersApiClient.deletePlayer(editorLogin, del);
     }
 
-    @DataProvider(name = "invalidGenders")
-    public Object[][] invalidGenders() {
-        return new Object[][]{{""}, {" "}, {"ale"}, {"123"}, {"!@#"}, {"UnsupportedGender"}};
-    }
-
-
+    private void registerForCleanup(long id) { createdIds.get().addFirst(id); }
 
 }

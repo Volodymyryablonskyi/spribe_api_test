@@ -22,46 +22,29 @@ public class PlayersApiClient extends BaseApiClient<PlayerEndpoints> {
     }
 
     public ResponseWrapper createPlayer(String editor, PlayerRequestPojo request) {
-        log.info("Create new player: {}", request.toString());
+        log.info("Create new player as {} editor : {}", editor, request.toString());
         Map<String, String> queryParams = PojoConverter.toQueryParams(request);
-        return request(
-                HttpMethods.GET,
-                endpoints.getCreateUri(editor),
-                null,
-                queryParams,
-                null
-        );
+        return request(HttpMethods.GET, endpoints.getCreateUri(editor), null, queryParams, null);
     }
 
     public ResponseWrapper getPlayerById(GetPlayerRequestPojo request) {
-        return request(
-                HttpMethods.POST,
-                endpoints.getGetByIdUri(),
-                request
-        );
+        return request(HttpMethods.POST, endpoints.getGetByIdUri(), request);
+    }
+
+    public ResponseWrapper getPlayerById(Long id) {
+        return getPlayerById(new GetPlayerRequestPojo().setPlayerId(id));
     }
 
     public ResponseWrapper deletePlayer(String editor, DeletePlayerRequestPojo request) {
-        return request(
-                HttpMethods.DELETE,
-                endpoints.getDeleteUri(editor),
-                request
-        );
+        return request(HttpMethods.DELETE, endpoints.getDeleteUri(editor), request);
     }
 
     public ResponseWrapper updatePlayer(String editor, long id, PlayerRequestPojo request) {
-        return request(
-                HttpMethods.PATCH,
-                endpoints.getUpdateUri(editor, id),
-                request
-        );
+        return request(HttpMethods.PATCH, endpoints.getUpdateUri(editor, id), request);
     }
 
     public ResponseWrapper getAllPlayers() {
-        return request(
-                HttpMethods.GET,
-                endpoints.getGetAllUri()
-        );
+        return request(HttpMethods.GET, endpoints.getGetAllUri());
     }
 
 

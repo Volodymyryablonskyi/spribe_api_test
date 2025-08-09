@@ -1,48 +1,46 @@
-package com.spribe.yablonskyi.testdata;
+package com.spribe.yablonskyi.data;
 
 import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import com.spribe.yablonskyi.util.Randomizer;
 import com.spribe.yablonskyi.util.TimeUtil;
 
-public class PlayerTestData {
+public class PlayerDataGenerator {
 
     private final String[] genders = new String[]{"Male", "Female"};
 
-    protected String getValidAge() {
+    public String getValidAge() {
         return Randomizer.getRandomNumberInRangeString(18, 60);
     }
 
-    protected String getValidGender() {
+    public String getValidGender() {
         return genders[Randomizer.getRandomNumberInRange(0, genders.length - 1)];
     }
 
-    protected String getInvalidGender() {
+    public String getInvalidGender() {
         return "gender_" + Randomizer.getRandomAlphanumeric(3) + TimeUtil.getCurrentTimeStamp();
     }
 
-    protected String getValidLogin() {
+    public String getValidLogin() {
         return "login_" + Randomizer.getRandomAlphanumeric(3) + TimeUtil.getCurrentTimeStamp();
     }
 
-    protected String getValidPassword() {
+    public String getValidPassword() {
         return "password_" + Randomizer.getRandomAlphanumeric(3) + TimeUtil.getCurrentTimeStamp();
     }
 
-    protected String getUserRole() {
-        return "user";
-    }
-
-    protected String getValidScreenName() {
+    public String getValidScreenName() {
         return "screen_" + Randomizer.getRandomAlphanumeric(3) + TimeUtil.getCurrentTimeStamp();
     }
 
-    public PlayerRequestPojo generateValidPlayer() {
+    public String getInvalidRole() { return "invalidEditor"; }
+
+    public PlayerRequestPojo generateValidPlayer(String role) {
         return new PlayerRequestPojo()
                 .setAge(getValidAge())
                 .setGender(getValidGender())
                 .setLogin(getValidLogin())
                 .setPassword(getValidPassword())
-                .setRole(getUserRole())
+                .setRole(role)
                 .setScreenName(getValidScreenName());
     }
 

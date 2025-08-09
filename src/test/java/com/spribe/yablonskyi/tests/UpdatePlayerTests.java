@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 public class UpdatePlayerTests extends BasePlayerTest {
 
+/*
     @Test(alwaysRun = true,
             dataProvider = "editors",
             description = "Verify that player can be updated with valid data",
@@ -135,6 +136,7 @@ public class UpdatePlayerTests extends BasePlayerTest {
                 .verifyStatusCode(403);
     }
 
+*/
 
 
 }

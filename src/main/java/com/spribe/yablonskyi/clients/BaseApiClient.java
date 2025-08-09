@@ -43,12 +43,5 @@ public class BaseApiClient<T extends BaseEndpoints> {
         return ResponseWrapper.of(response);
     }
 
-    private T createEndpoints(Class<T> cls) {
-        try {
-            return cls.getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create endpoints instance", e);
-        }
-    }
 
 }

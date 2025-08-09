@@ -45,11 +45,19 @@ public class ResponseWrapper {
         return response.jsonPath().getList("$", clz);
     }
 
+    public Long getId() {
+        return getJsonValue("id", Long.class);
+    }
+
     public String getBodyAsString() {
         return response.body().asString();
     }
 
-    public int statusCode() {
+    public StatusCode statusCode() {
+        return StatusCode.parseToCode(getStatusCodeInt());
+    }
+
+    public int getStatusCodeInt() {
         return response.getStatusCode();
     }
 
@@ -69,7 +77,7 @@ public class ResponseWrapper {
     }
 
 
-    public ResponseWrapper verifyStatusCode(int expected) {
+    public ResponseWrapper verifyStatusCode(StatusCode expected) {
         log.info("Verify that Response status code is equal to - {}", expected);
         int actual = statusCode();
         Assert.assertEquals(actual, expected, "Expected status code " + expected + " but got " + actual);

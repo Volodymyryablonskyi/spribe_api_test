@@ -1,13 +1,10 @@
 package com.spribe.yablonskyi.base;
 
-import com.spribe.yablonskyi.clients.PlayersApiClient;
 import com.spribe.yablonskyi.config.RestAssuredConfigurator;
-import com.spribe.yablonskyi.testdata.PlayerTestData;
 import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.BeforeClass;
 
 public class BaseTest {
-
 
     private static final ThreadLocal<Boolean> isRerun = ThreadLocal.withInitial(() -> Boolean.FALSE);
     protected RequestSpecification spec;

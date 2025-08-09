@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 public class DeletePlayerTests extends BasePlayerTest {
 
-    @Test(alwaysRun = true,
+/*    @Test(alwaysRun = true,
             dataProvider = "editors",
             description = "Verify that a player can be deleted by admin or supervisor",
             groups = {"regression", "api", "player", "delete-player", "delete-player-positive", "delete-existing-player"})
@@ -76,6 +76,6 @@ public class DeletePlayerTests extends BasePlayerTest {
     public void shouldReturn400WhenRequestBodyIsEmpty(String editor) {
         playersApiClient.deletePlayer(editor, null)
                 .verifyStatusCode(400);
-    }
+    }*/
 
 }

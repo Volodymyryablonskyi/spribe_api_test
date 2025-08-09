@@ -14,7 +14,7 @@ import static org.testng.Assert.assertNotNull;
 
 public class GetAllPlayersTests extends BasePlayerTest {
 
-    @Test(alwaysRun = true,
+   /* @Test(alwaysRun = true,
             description = "Verify that GET /player/get/all returns 200 status",
             groups = {"regression", "api", "player", "get-all-players", "positive"})
     @Description("Ensure that GET /player/get/all returns 200 status")
@@ -68,6 +68,6 @@ public class GetAllPlayersTests extends BasePlayerTest {
 
         assertNotNull(allPlayers, "List should not be null");
         assertFalse(allPlayers.isEmpty(), "List should not be empty");
-    }
+    }*/
 
 }

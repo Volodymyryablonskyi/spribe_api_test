@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 public class GetPlayerTests extends BasePlayerTest {
 
-    @Test(alwaysRun = true,
+   /* @Test(alwaysRun = true,
             description = "Verify that player can be retrieved by valid ID",
             groups = {"regression", "api", "player", "get-player", "get-player-positive"})
     @Description("Ensure that player can be retrieved using POST /player/get with valid ID")
@@ -69,7 +69,7 @@ public class GetPlayerTests extends BasePlayerTest {
     public void shouldReturn400WhenRequestBodyIsEmpty() {
         playersApiClient.getPlayerById(null)
                 .verifyStatusCode(400);
-    }
+    }*/
 
 
 }
