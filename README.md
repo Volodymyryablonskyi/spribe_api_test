@@ -25,7 +25,7 @@ src/
     assertions/         # PlayerVerifier, PlayersListVerifier
     clients/            # PlayersApiClient (thin HTTP wrapper)
     config/             # RestAssuredConfigurator, config loading
-    constants/          # Constants (e.g., BASE_URI)e
+    constants/          # Constants (e.g., BASE_URI)
     endpoints/          # Classes with String ndpoints 
     http/               # Request/response helpers (ResponseWrapper, StatusCode)
     pojo/               # DTOs
