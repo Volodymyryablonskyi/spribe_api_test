@@ -51,6 +51,17 @@ public class BasePlayerTest extends BaseTest {
         return created;
     }
 
+    protected PlayerResponsePojo createUser(Role targetRole) {
+        return createUser(targetRole, targetRole.equals(Role.SUPERVISOR) ? SUPERVISOR : ADMIN);
+    }
+
+    protected ResponseWrapper createUser(String editorLogin, PlayerRequestPojo request) {
+        ResponseWrapper resp = playersApiClient.createPlayer(editorLogin, request);
+        registerForCleanup(resp.getId());
+        return resp;
+    }
+
+
     protected ResponseWrapper callCreate(Role targetRole, String editorLogin) {
         PlayerRequestPojo req = playersDataGenerator.get().generateValidPlayer(targetRole.getLogin());
         ResponseWrapper resp =  playersApiClient.createPlayer(editorLogin, req);

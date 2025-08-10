@@ -21,18 +21,22 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
             dataProvider = "editorsAndTargets",
             dataProviderClass = PositiveDataProviders.class,
             groups = {"regression", "api", "api-players", "create-player-positive","create-editor-role"},
-            description = "Create player: SUPERVISOR creates ADMIN/USER and response matches request")
-    @Description("SUPERVISOR can create users with roles ADMIN/USER. ID is registered for cleanup; payload in response equals request.")
-    public void verifyCreateAllowsSupervisorForAdminAndUser(Role ignoredEditor, Role targetRole) {
-        PlayerRequestPojo req = playersDataGenerator.get().generateValidPlayer(targetRole.getLogin());
-        performCreateAndVerifyCreated(req);
+            description = "Create player: allowed editor/target combos per role model")
+    @Description("SUPERVISOR can create ADMIN/USER; ADMIN can create USER. Response matches request.")
+    public void verifyCreateAllowsValidEditorTargetCombos(Role editor, Role targetRole) {
+        PlayerRequestPojo req = playersDataGenerator.get()
+                .generateValidPlayer(editor.getLogin())
+                .setRole(targetRole.name().toLowerCase());
+        ResponseWrapper resp = createUser(editor.getLogin(), req)
+                .verifyStatusCodeIn(StatusCode._200_OK, StatusCode._201_CREATED);
+        PlayerResponsePojo actual = fetchPlayer(resp.getId());
+        PlayerVerifier.verifyMatches(req, actual);
     }
 
     @Test(alwaysRun = true,
             dataProvider = "boundaryAges",
             dataProviderClass = PositiveDataProviders.class,
             groups = {"regression","api","api-players","create-player-positive","create-edge-age"},
-            threadPoolSize = 3,
             description = "Create player with boundary age (17 or 59) and response matches request")
     @Description("Age must be >16 and <60. Boundaries 17 and 59 are accepted and persisted as-is.")
     public void verifyCreateAcceptsBoundaryAges(String age) {
@@ -45,7 +49,6 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
             dataProvider = "allowedGenders",
             dataProviderClass = PositiveDataProviders.class,
             groups = {"regression","api","api-players","create-player-positive","create-valid-gender"},
-            threadPoolSize = 3,
             description = "Create player with allowed gender (male/female) and response matches request")
     @Description("Gender must be either 'male' or 'female'. Persisted value equals requested.")
     public void verifyCreateAcceptsAllowedGenders(String gender) {
@@ -58,7 +61,6 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
             dataProvider = "passwordLengths",
             dataProviderClass = PositiveDataProviders.class,
             groups = {"regression","api","api-players","create-player-positive","create-valid-password"},
-            threadPoolSize = 3,
             description = "Create player with valid password length (7..15) and response matches request")
     @Description("Password must be alphanumeric 7..15 with at least one letter and one digit.")
     public void verifyCreateAcceptsValidPasswordLengths(int length) {
@@ -69,7 +71,6 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","create-player-positive","create-password-optional"},
-            threadPoolSize = 3,
             description = "Create player without optional 'password' and response matches request")
     @Description("Password is optional; creation without password should succeed and persist accordingly (per API behavior).")
     public void verifyCreateAcceptsMissingOptionalPassword() {
@@ -83,6 +84,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
         ResponseWrapper resp = createAsAdmin(expected).verifyStatusCodeCreated();
         verifyPlayerCreatedCorrectly(expected, resp.getId());
     }
+
 
     private void verifyPlayerCreatedCorrectly(PlayerRequestPojo expected, long id) {
         ResponseWrapper getResp = playersApiClient.getPlayerById(id);

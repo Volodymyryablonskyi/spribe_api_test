@@ -23,7 +23,7 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
             description = "Supervisor can delete an ADMIN; subsequent GET returns 204")
     @Description("Supervisor may delete admin. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifySupervisorCanDeleteAdmin() {
-        PlayerResponsePojo target = createUser(Role.ADMIN, ADMIN);
+        PlayerResponsePojo target = createUser(Role.ADMIN);
         performDeleteAndVerifyDeleted(target.getId(), ADMIN);
     }
 
@@ -33,7 +33,7 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
             description = "Supervisor can delete a USER; subsequent GET returns 204")
     @Description("Supervisor may delete user. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifySupervisorCanDeleteUser() {
-        PlayerResponsePojo target = createUser(Role.USER, ADMIN);
+        PlayerResponsePojo target = createUser(Role.USER);
         performDeleteAndVerifyDeleted(target.getId(), ADMIN);
     }
 
@@ -43,7 +43,7 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
             description = "Admin can delete a USER; subsequent GET returns 204")
     @Description("Admin may delete users with role USER. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifyAdminCanDeleteUser() {
-        PlayerResponsePojo target = createUser(Role.USER, ADMIN); // створюємо через супервізора
+        PlayerResponsePojo target = createUser(Role.USER);
         performDeleteAndVerifyDeleted(target.getId(), ADMIN);
     }
 
@@ -53,7 +53,7 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
             description = "Admin can delete self (admin self-delete); subsequent GET returns 204")
     @Description("Admin can operate on admin if it is himself. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifyAdminCanDeleteSelf() {
-        PlayerResponsePojo target = createUser(Role.ADMIN, ADMIN);
+        PlayerResponsePojo target = createUser(Role.ADMIN);
         performDeleteAndVerifyDeleted(target.getId(), target.getLogin());
     }
 

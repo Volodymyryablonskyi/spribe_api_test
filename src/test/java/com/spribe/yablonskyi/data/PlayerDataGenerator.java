@@ -32,14 +32,6 @@ public class PlayerDataGenerator {
         return "screen_" + Randomizer.getRandomAlphanumeric(3) + TimeUtil.getCurrentTimeStamp();
     }
 
-    public String getInvalidGender() {
-        return "gender_" + Randomizer.getRandomAlphanumeric(3) + TimeUtil.getCurrentTimeStamp();
-    }
-
-    public String getInvalidRole() {
-        return "invalidEditor";
-    }
-
     public PlayerRequestPojo generateValidPlayer(String role) {
         return new PlayerRequestPojo()
                 .setAge(getValidAge())

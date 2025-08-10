@@ -10,11 +10,9 @@ public class PositiveDataProviders {
         return new Object[][]{
                 {Role.SUPERVISOR, Role.ADMIN},
                 {Role.SUPERVISOR, Role.USER},
-                {Role.ADMIN,      Role.ADMIN},
-                {Role.ADMIN,      Role.USER},
+                {Role.ADMIN, Role.USER},
         };
     }
-
     @DataProvider(name = "boundaryAges", parallel = true)
     public Object[][] boundaryAges() {
         return new Object[][] {{"17"}, {"59"}};

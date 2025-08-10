@@ -20,7 +20,6 @@ import org.testng.annotations.Test;
 @Story("Negative update scenarios")
 public class UpdatePlayerNegativeTests extends BasePlayerTest {
 
-    // ---------- AGE: invalid -> 400 ----------
     @Test(alwaysRun = true,
             dataProvider = "invalidAges",
             dataProviderClass = NegativeDataProvider.class,
@@ -34,7 +33,6 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
         performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode._400_BAD_REQUEST);
     }
 
-    // ---------- GENDER: invalid -> 400 ----------
     @Test(alwaysRun = true,
             dataProvider = "invalidGenders",
             dataProviderClass = NegativeDataProvider.class,
@@ -48,7 +46,6 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
         performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode._400_BAD_REQUEST);
     }
 
-    // ---------- PASSWORD: invalid -> 400 ----------
     @Test(alwaysRun = true,
             dataProvider = "invalidPasswords",
             dataProviderClass = NegativeDataProvider.class,
@@ -62,7 +59,6 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
         performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode._400_BAD_REQUEST);
     }
 
-    // ---------- LOGIN: duplicate -> 409 ----------
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","update-negative","update-unique"},
             threadPoolSize = 3,
@@ -75,7 +71,6 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
         performUpdateAndVerifyNotUpdated(userB.getId(), ADMIN, userB, partial, StatusCode._409_CONFLICT);
     }
 
-    // ---------- SCREEN NAME: duplicate -> 409 ----------
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","update-negative","update-unique"},
             threadPoolSize = 3,

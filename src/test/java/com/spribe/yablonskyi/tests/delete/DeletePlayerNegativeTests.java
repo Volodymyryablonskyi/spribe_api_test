@@ -23,7 +23,7 @@ public class DeletePlayerNegativeTests extends BasePlayerTest {
             description = "Admin cannot delete another ADMIN (only self) — expect 403; entity must remain")
     @Description("Per rules, admin may operate on admin only if it is himself. Deleting another admin must be forbidden.")
     public void verifyAdminCannotDeleteAnotherAdmin() {
-        PlayerResponsePojo targetAdmin = createUser(Role.ADMIN, ADMIN); // target admin
+        PlayerResponsePojo targetAdmin = createUser(Role.ADMIN);
         performDeleteAndVerifyNotDeleted(targetAdmin.getId(), ADMIN, StatusCode._403_FORBIDDEN);
     }
 
@@ -74,7 +74,7 @@ public class DeletePlayerNegativeTests extends BasePlayerTest {
             description = "Delete non-existent id should return 204 No Content; GET also 204")
     @Description("Spec exposes 200/204/401/403 for delete. For non-existent id we expect 204 and no side effects.")
     public void verifyDeleteNonExistingIdIsNoop() {
-        long nonexistentId = 9_000_000_000L; // малоймовірно, що існує
+        long nonexistentId = 9_000_000_000L;
         performDeleteNonExistingAndVerifyNoContent(nonexistentId, ADMIN);
     }
 

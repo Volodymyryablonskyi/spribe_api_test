@@ -58,7 +58,6 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
         performCreateAndVerifyNotCreated(req, StatusCode._400_BAD_REQUEST);
     }
 
-    // ---------- INVALID ROLE ON CREATE -> 400 ----------
     @Test(alwaysRun = true,
             dataProvider = "invalidRolesOnCreate",
             dataProviderClass = NegativeDataProvider.class,
@@ -72,7 +71,6 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
         performCreateAndVerifyNotCreated(req, StatusCode._400_BAD_REQUEST);
     }
 
-    // ---------- MISSING REQUIRED FIELD -> 400 ----------
     @Test(alwaysRun = true,
             dataProvider = "missingRequiredFields",
             dataProviderClass = NegativeDataProvider.class,
@@ -109,7 +107,6 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
         performCreateAndVerifyNotCreated(dup, StatusCode._409_CONFLICT);
     }
 
-    // ---------- DUPLICATE SCREEN NAME -> 409 ----------
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","create-negative","create-unique"},
             threadPoolSize = 3,
