@@ -25,14 +25,15 @@ src/
     assertions/         # PlayerVerifier, PlayersListVerifier
     clients/            # PlayersApiClient (thin HTTP wrapper)
     config/             # RestAssuredConfigurator, config loading
-    constants/          # Constants (e.g., BASE_URI)
+    constants/          # Constants (e.g., BASE_URI)e
+    endpoints/          # Classes with String ndpoints 
     http/               # Request/response helpers (ResponseWrapper, StatusCode)
     pojo/               # DTOs
     util/               # Randomizer, Sleep, TimeUtil, logging utils
 
   test/java/
     base/               # BaseTest, BasePlayerTest (ThreadLocal state, cleanup, helpers)
-    listeners/          # GlobalTestListener (suite logs)
+    listeners/          # GlobalTestListener 
     tests/
       access/           # Role access checks
       create/           # Positive/Negative Create
@@ -87,17 +88,6 @@ Example:
 ```bash
 mvn clean test -Dgroups="create-positive,delete-negative"
 ```
-
-### 6) Run one class or test method
-```bash
-# one class
-mvn -Dtest=com.spribe.yablonskyi.tests.delete.DeletePlayerPositiveTests test
-
-# one method
-mvn -Dtest=com.spribe.yablonskyi.tests.delete.DeletePlayerPositiveTests#verifyAdminCanDeleteUser test
-```
-
----
 
 ## Allure report
 
