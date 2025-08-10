@@ -69,6 +69,7 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
         } else {
             log.logHeader("PASSED: " + methodName, LogLevel.INFO);
         }
+        setRerun(false);
     }
 
     @Override
@@ -83,6 +84,7 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
                 log.error("ERROR: ", throwable);
             }
         }
+        setRerun(false);
     }
 
     @Override
@@ -127,8 +129,11 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
     }
 
     private boolean getRerun(ITestResult result) {
-        return (Boolean) result.getAttribute("isRerun");
+        return BaseTest.getRerun();
     }
 
+    private void setRerun(boolean rerun) {
+        BaseTest.setRerun(rerun);
+    }
 
 }

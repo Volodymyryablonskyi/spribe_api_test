@@ -16,8 +16,6 @@ import org.testng.annotations.BeforeClass;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import static java.lang.Thread.sleep;
-
 public class BasePlayerTest extends BaseTest {
 
     protected static final String BASE_URL = Constants.BASE_URI;

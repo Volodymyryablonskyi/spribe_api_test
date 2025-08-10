@@ -2,7 +2,6 @@ package com.spribe.yablonskyi.tests.delete;
 
 import com.spribe.yablonskyi.base.BasePlayerTest;
 import com.spribe.yablonskyi.data.Role;
-import com.spribe.yablonskyi.http.response.ResponseWrapper;
 import com.spribe.yablonskyi.http.response.StatusCode;
 import com.spribe.yablonskyi.pojo.DeletePlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.PlayerResponsePojo;
