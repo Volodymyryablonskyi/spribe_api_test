@@ -7,10 +7,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 public class RetryTransformer implements IAnnotationTransformer {
+
     @Override
-    public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
-        if (annotation.getRetryAnalyzerClass() == null) {
-            annotation.setRetryAnalyzer(RetryAnalyzer.class);
+    public void transform(ITestAnnotation a, Class c, Constructor k, Method m) {
+        if (a.getRetryAnalyzerClass() == null) {
+            a.setRetryAnalyzer(RetryAnalyzer.class);
         }
     }
+
 }

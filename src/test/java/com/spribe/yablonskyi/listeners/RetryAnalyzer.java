@@ -11,13 +11,12 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
     @Override
     public boolean retry(ITestResult result) {
-        if (retryCount < MAX_RETRY_COUNT) {
+        boolean shouldRetry = retryCount < MAX_RETRY_COUNT;
+        if (shouldRetry) {
             retryCount++;
-            BaseTest.setRerun(true);
-            return true;
+            result.setAttribute("isRerun", true);
         }
-        BaseTest.setRerun(false);
-        return false;
+        return shouldRetry;
     }
 
 }

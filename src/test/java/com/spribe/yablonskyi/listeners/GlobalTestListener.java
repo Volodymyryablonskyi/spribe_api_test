@@ -48,7 +48,7 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
     @Override
     public void onTestStart(ITestResult result) {
         String methodName = result.getMethod().getMethodName();
-        if (BaseTest.getRerun()) {
+        if (getRerun(result)) {
             log.logHeader("RETRYING: " + methodName, LogLevel.INFO);
         } else {
             log.logHeader("STARTED: " + methodName, LogLevel.INFO);
@@ -64,18 +64,17 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
     @Override
     public void onTestSuccess(ITestResult result) {
         String methodName = result.getMethod().getMethodName();
-        if (BaseTest.getRerun()) {
+        if (getRerun(result)) {
             log.logHeader("PASSED IN RETRY: " + methodName, LogLevel.INFO);
         } else {
             log.logHeader("PASSED: " + methodName, LogLevel.INFO);
         }
-        BaseTest.setRerun(false);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         String methodName = result.getMethod().getMethodName();
-        if (BaseTest.getRerun()) {
+        if (getRerun(result)) {
             log.logHeader("FAILED IN RETRY: " + methodName, LogLevel.WARN);
         } else {
             log.logHeader("FAILED: " + methodName, LogLevel.ERROR);
@@ -84,14 +83,12 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
                 log.error("ERROR: ", throwable);
             }
         }
-        BaseTest.setRerun(false);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
         String methodName = result.getMethod().getMethodName();
         log.logHeader("SKIPPED: " + methodName, LogLevel.WARN);
-        BaseTest.setRerun(false);
     }
 
     private void tryLogDescription(ITestResult result) {
@@ -127,6 +124,10 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
             if (login != null) return login.toString();
         } catch (Exception ignored) {}
         return String.valueOf(v);
+    }
+
+    private boolean getRerun(ITestResult result) {
+        return (Boolean) result.getAttribute("isRerun");
     }
 
 
