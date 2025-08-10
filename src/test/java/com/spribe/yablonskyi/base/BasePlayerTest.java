@@ -40,28 +40,6 @@ public class BasePlayerTest extends BaseTest {
         }
     }
 
-    protected PlayerResponsePojo createUser(Role targetRole, String editorLogin) {
-        PlayerRequestPojo request = playersDataGenerator.get().generateValidPlayer(targetRole.getLogin());
-        ResponseWrapper resp = playersApiClient.createPlayer(editorLogin, request);
-        if (!resp.statusCode().equals(StatusCode._200_OK) && !resp.statusCode().equals(StatusCode._201_CREATED)) {
-            throw new AssertionError("Failed to create user. code=" + resp.statusCode() + " body=" + resp.asString());
-        }
-        PlayerResponsePojo created = resp.asPojo(PlayerResponsePojo.class);
-        registerForCleanup(created.getId());
-        return created;
-    }
-
-    protected PlayerResponsePojo createUser(Role targetRole) {
-        return createUser(targetRole, targetRole.equals(Role.SUPERVISOR) ? SUPERVISOR : ADMIN);
-    }
-
-    protected ResponseWrapper createUser(String editorLogin, PlayerRequestPojo request) {
-        ResponseWrapper resp = playersApiClient.createPlayer(editorLogin, request);
-        registerForCleanup(resp.getId());
-        return resp;
-    }
-
-
     protected ResponseWrapper callCreate(Role targetRole, String editorLogin) {
         PlayerRequestPojo req = playersDataGenerator.get().generateValidPlayer(targetRole.getLogin());
         ResponseWrapper resp =  playersApiClient.createPlayer(editorLogin, req);
@@ -87,6 +65,27 @@ public class BasePlayerTest extends BaseTest {
                 registerForCleanup(id);
             }
         }
+    }
+
+    protected PlayerResponsePojo createUser(Role targetRole, String editorLogin) {
+        PlayerRequestPojo request = playersDataGenerator.get().generateValidPlayer(targetRole.getLogin());
+        ResponseWrapper resp = playersApiClient.createPlayer(editorLogin, request);
+        if (!resp.statusCode().equals(StatusCode._200_OK) && !resp.statusCode().equals(StatusCode._201_CREATED)) {
+            throw new AssertionError("Failed to create user. code=" + resp.statusCode() + " body=" + resp.asString());
+        }
+        PlayerResponsePojo created = resp.asPojo(PlayerResponsePojo.class);
+        registerForCleanup(created.getId());
+        return created;
+    }
+
+    protected PlayerResponsePojo createUser(Role targetRole) {
+        return createUser(targetRole, targetRole.equals(Role.SUPERVISOR) ? SUPERVISOR : ADMIN);
+    }
+
+    protected ResponseWrapper createUser(String editorLogin, PlayerRequestPojo request) {
+        ResponseWrapper resp = playersApiClient.createPlayer(editorLogin, request);
+        registerForCleanup(resp.getId());
+        return resp;
     }
 
     protected ResponseWrapper createAsAdmin(PlayerRequestPojo req) {

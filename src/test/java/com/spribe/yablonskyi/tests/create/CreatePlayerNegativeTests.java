@@ -21,7 +21,6 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
             dataProvider = "invalidAges",
             dataProviderClass = NegativeDataProvider.class,
             groups = {"regression","api","api-players","create-negative","create-age"},
-            threadPoolSize = 3,
             description = "Create player with invalid 'age' must return 400 Bad Request")
     @Description("Age must be >16 and <60. Values like 16, 60, negative, zero, too large or non-numeric should be rejected.")
     public void verifyCreateRejectsInvalidAge(String badAge) {
@@ -34,7 +33,6 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
             dataProvider = "invalidGenders",
             dataProviderClass = NegativeDataProvider.class,
             groups = {"regression","api","api-players","create-negative","create-gender"},
-            threadPoolSize = 3,
             description = "Create player with invalid 'gender' must return 400 Bad Request")
     @Description("Only 'male' or 'female' are allowed. Empty, mixed case with spaces, or unknown values should be rejected.")
     public void verifyCreateRejectsInvalidGender(String badGender) {
@@ -43,12 +41,10 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
         performCreateAndVerifyNotCreated(req, StatusCode._400_BAD_REQUEST);
     }
 
-    // ---------- INVALID PASSWORD -> 400 ----------
     @Test(alwaysRun = true,
             dataProvider = "invalidPasswords",
             dataProviderClass = NegativeDataProvider.class,
             groups = {"regression","api","api-players","create-negative","create-password"},
-            threadPoolSize = 3,
             description = "Create player with invalid 'password' must return 400 Bad Request")
     @Description("Password must be alphanumeric 7..15 with at least one letter and one digit. Too short/long, digits-only, letters-only, non-latin should be rejected.")
     public void verifyCreateRejectsInvalidPassword(String badPassword) {
@@ -62,7 +58,6 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
             dataProvider = "invalidRolesOnCreate",
             dataProviderClass = NegativeDataProvider.class,
             groups = {"regression","api","api-players","create-negative","create-role"},
-            threadPoolSize = 3,
             description = "Create player with invalid 'role' must return 400 Bad Request")
     @Description("Only 'admin' or 'user' are allowed. 'supervisor' or unknown roles should be rejected.")
     public void verifyCreateRejectsInvalidRole(String badRole) {
@@ -75,7 +70,6 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
             dataProvider = "missingRequiredFields",
             dataProviderClass = NegativeDataProvider.class,
             groups = {"regression","api","api-players","create-negative","create-required"},
-            threadPoolSize = 3,
             description = "Create player without a required field must return 400 Bad Request")
     @Description("Required fields: age, gender, login, role, screenName. (password is optional)")
     public void verifyCreateRejectsMissingRequiredField(String missingField) {
@@ -95,7 +89,6 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","create-negative","create-unique"},
-            threadPoolSize = 3,
             description = "Create player with duplicate 'login' must return 409 Conflict")
     @Description("Login must be unique. Creating another player with the same login should fail.")
     public void verifyCreateRejectsDuplicateLogin() {
@@ -109,7 +102,6 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","create-negative","create-unique"},
-            threadPoolSize = 3,
             description = "Create player with duplicate 'screenName' must return 409 Conflict")
     @Description("ScreenName must be unique. Creating another player with the same screenName should fail.")
     public void verifyCreateRejectsDuplicateScreenName() {

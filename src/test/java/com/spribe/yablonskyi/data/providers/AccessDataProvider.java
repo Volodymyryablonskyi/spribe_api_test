@@ -8,7 +8,7 @@ import static com.spribe.yablonskyi.http.response.StatusCode.*;
 
 public class AccessDataProvider {
 
-    @DataProvider(name = "createAccess", parallel = true)
+    @DataProvider(name = "createAccess")
     public Object[][] createAccess() {
         return new Object[][]{
                 {Role.SUPERVISOR, Role.USER, new StatusCode[]{_200_OK, _204_NO_CONTENT}},
@@ -23,7 +23,7 @@ public class AccessDataProvider {
         };
     }
 
-    @DataProvider(name = "updateAccess", parallel = true)
+    @DataProvider(name = "updateAccess")
     public Object[][] updateAccess() {
         return new Object[][]{
                 {Role.SUPERVISOR, Role.USER, false, new StatusCode[]{_200_OK, _204_NO_CONTENT}},
@@ -41,7 +41,7 @@ public class AccessDataProvider {
         };
     }
 
-    @DataProvider(name = "deleteAccess", parallel = true)
+    @DataProvider(name = "deleteAccess")
     public Object[][] deleteAccess() {
         return new Object[][]{
                 {Role.SUPERVISOR, Role.USER, false, new StatusCode[]{_204_NO_CONTENT, _200_OK}},
@@ -59,7 +59,7 @@ public class AccessDataProvider {
         };
     }
 
-    @DataProvider(name = "createRoleValidation", parallel = true)
+    @DataProvider(name = "createRoleValidation")
     public Object[][] createRoleValidation() {
         return new Object[][]{
                 {Role.ADMIN, Role.SUPERVISOR, new StatusCode[]{StatusCode._403_FORBIDDEN, StatusCode._400_BAD_REQUEST}},

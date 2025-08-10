@@ -24,7 +24,6 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
             dataProvider = "invalidAges",
             dataProviderClass = NegativeDataProvider.class,
             groups = {"regression","api","api-players","update-negative","update-age"},
-            threadPoolSize = 3,
             description = "Update player with invalid 'age' must return 400 Bad Request and not change entity")
     @Description("Age must be >16 and <60. Out-of-range or non-numeric should be rejected.")
     public void verifyUpdateRejectsInvalidAges(String badAge) {
@@ -37,7 +36,6 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
             dataProvider = "invalidGenders",
             dataProviderClass = NegativeDataProvider.class,
             groups = {"regression","api","api-players","update-negative","update-gender"},
-            threadPoolSize = 3,
             description = "Update player with invalid 'gender' must return 400 Bad Request and not change entity")
     @Description("Only 'male'/'female' are allowed. Any other value should be rejected.")
     public void verifyUpdateRejectsInvalidGenders(String badGender) {
@@ -50,7 +48,6 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
             dataProvider = "invalidPasswords",
             dataProviderClass = NegativeDataProvider.class,
             groups = {"regression","api","api-players","update-negative","update-password"},
-            threadPoolSize = 3,
             description = "Update player with invalid 'password' must return 400 Bad Request and not change entity")
     @Description("Password must be alphanumeric 7..15 with at least one letter and one digit.")
     public void verifyUpdateRejectsInvalidPasswords(String badPassword) {
@@ -61,7 +58,6 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","update-negative","update-unique"},
-            threadPoolSize = 3,
             description = "Update 'login' to a duplicate must return 409 Conflict and not change entity")
     @Description("Login is unique. Trying to set an existing login on another user must fail.")
     public void verifyUpdateRejectsDuplicateLogin() {
@@ -73,7 +69,6 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","update-negative","update-unique"},
-            threadPoolSize = 3,
             description = "Update 'screenName' to a duplicate must return 409 Conflict and not change entity")
     @Description("screenName is unique. Trying to set an existing screenName on another user must fail.")
     public void verifyUpdateRejectsDuplicateScreenName() {

@@ -6,17 +6,17 @@ import org.testng.annotations.DataProvider;
 
 public class NegativeDataProvider {
 
-    @DataProvider(name = "invalidAges", parallel = true)
+    @DataProvider(name = "invalidAges")
     public Object[][] invalidAges() {
         return new Object[][]{{"16"}, {"60"}, {"-1"}, {"0"}, {"120"}, {"abc"}};
     }
 
-    @DataProvider(name = "invalidGenders", parallel = true)
+    @DataProvider(name = "invalidGenders")
     public Object[][] invalidGenders() {
         return new Object[][]{{""}, {"unknown"}, {"MALE"}, {"Female "}, {"mAle"}};
     }
 
-    @DataProvider(name = "invalidPasswords", parallel = true)
+    @DataProvider(name = "invalidPasswords")
     public Object[][] invalidPasswords() {
         return new Object[][]{
                 {Randomizer.getRandomAlphanumeric(6)},
@@ -28,17 +28,17 @@ public class NegativeDataProvider {
         };
     }
 
-    @DataProvider(name = "invalidRolesOnCreate", parallel = true)
+    @DataProvider(name = "invalidRolesOnCreate")
     public Object[][] invalidRolesOnCreate() {
         return new Object[][]{{Role.SUPERVISOR.getLogin()}, {"root"}, {""}, {"manager"}};
     }
 
-    @DataProvider(name = "missingRequiredFields", parallel = true)
+    @DataProvider(name = "missingRequiredFields")
     public Object[][] missingRequiredFields() {
         return new Object[][]{{"age"}, {"gender"}, {"login"}, {"role"}, {"screenName"}};
     }
 
-    @DataProvider(name = "invalidIds", parallel = true)
+    @DataProvider(name = "invalidIds")
     public Object[][] invalidIds() {
         return new Object[][]{{0L}, {-1L},};
     }

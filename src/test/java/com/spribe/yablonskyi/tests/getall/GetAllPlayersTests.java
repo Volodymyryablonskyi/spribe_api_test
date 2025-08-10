@@ -20,7 +20,6 @@ public class GetAllPlayersTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","get-positive","get-all"},
-            threadPoolSize = 3,
             description = "GET /player/get/all returns 200 OK")
     @Description("Smoke: endpoint is reachable and responds with 200 OK.")
     public void verifyGetAllReturnsOk() {
@@ -30,7 +29,6 @@ public class GetAllPlayersTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","get-positive","get-all"},
-            threadPoolSize = 3,
             description = "GET /player/get/all contains users created in this test")
     @Description("Create two users via SUPERVISOR, then assert their presence in the get-all response (by id/screenName).")
     public void verifyGetAllContainsNewlyCreatedPlayers() {

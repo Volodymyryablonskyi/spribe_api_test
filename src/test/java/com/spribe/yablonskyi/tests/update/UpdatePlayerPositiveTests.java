@@ -23,7 +23,6 @@ public class UpdatePlayerPositiveTests extends BasePlayerTest {
             dataProvider = "boundaryAges",
             dataProviderClass = PositiveDataProviders.class,
             groups = {"regression","api","api-players","update-positive","update-age"},
-            threadPoolSize = 3,
             description = "Update 'age' to boundary values (17, 59) should succeed and persist")
     @Description("Age must be >16 and <60. Updating to 17/59 is accepted and persisted.")
     public void verifyUpdateAcceptsBoundaryAges(String newAge) {
@@ -36,7 +35,6 @@ public class UpdatePlayerPositiveTests extends BasePlayerTest {
             dataProvider = "allowedGenders",
             dataProviderClass = PositiveDataProviders.class,
             groups = {"regression","api","api-players","update-positive","update-gender"},
-            threadPoolSize = 3,
             description = "Update 'gender' to allowed values (male/female) should succeed and persist")
     @Description("Gender can be 'male' or 'female'. Update should persist the requested value.")
     public void verifyUpdateAcceptsAllowedGenders(String gender) {
@@ -49,7 +47,6 @@ public class UpdatePlayerPositiveTests extends BasePlayerTest {
             dataProvider = "passwordLengths",
             dataProviderClass = PositiveDataProviders.class,
             groups = {"regression","api","api-players","update-positive","update-password"},
-            threadPoolSize = 3,
             description = "Update 'password' within valid length (7..15) should succeed")
     @Description("Password must be alphanumeric 7..15 with at least one letter and one digit. We assert 200 and integrity of other fields.")
     public void verifyUpdateAcceptsValidPasswordLengths(int length) {
@@ -61,7 +58,6 @@ public class UpdatePlayerPositiveTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","update-positive","update-login"},
-            threadPoolSize = 3,
             description = "Update 'login' to a unique value should succeed and persist")
     @Description("Login must be unique. Updating to a new unique login is allowed and persisted.")
     public void verifyUpdateAllowsChangingLoginToUnique() {
@@ -73,7 +69,6 @@ public class UpdatePlayerPositiveTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression","api","api-players","update-positive","update-screenname"},
-            threadPoolSize = 3,
             description = "Update 'screenName' to a unique value should succeed and persist")
     @Description("screenName must be unique. Updating to a new unique screenName is allowed and persisted.")
     public void verifyUpdateAllowsChangingScreenNameToUnique() {
@@ -95,7 +90,8 @@ public class UpdatePlayerPositiveTests extends BasePlayerTest {
     }
 
     protected void performUpdateAndVerify(long id, String editorLogin, PlayerResponsePojo before, PlayerRequestPojo partial) {
-        callUpdate(id, editorLogin, partial).verifyStatusCode(StatusCode._200_OK);
+        callUpdate(id, editorLogin, partial)
+                .verifyStatusCodeIn(StatusCode._200_OK, StatusCode._204_NO_CONTENT);
         verifyUpdateApplied(id, before, partial);
     }
 

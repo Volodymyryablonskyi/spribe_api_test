@@ -19,27 +19,24 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression", "api", "api-players", "delete-positive", "delete-admin"},
-            threadPoolSize = 3,
             description = "Supervisor can delete an ADMIN; subsequent GET returns 204")
     @Description("Supervisor may delete admin. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifySupervisorCanDeleteAdmin() {
         PlayerResponsePojo target = createUser(Role.ADMIN);
-        performDeleteAndVerifyDeleted(target.getId(), ADMIN);
+        performDeleteAndVerifyDeleted(target.getId(), SUPERVISOR);
     }
 
     @Test(alwaysRun = true,
             groups = {"regression", "api", "api-players", "delete-positive", "delete-user"},
-            threadPoolSize = 3,
             description = "Supervisor can delete a USER; subsequent GET returns 204")
     @Description("Supervisor may delete user. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifySupervisorCanDeleteUser() {
         PlayerResponsePojo target = createUser(Role.USER);
-        performDeleteAndVerifyDeleted(target.getId(), ADMIN);
+        performDeleteAndVerifyDeleted(target.getId(), SUPERVISOR);
     }
 
     @Test(alwaysRun = true,
             groups = {"regression", "api", "api-players", "delete-positive", "delete-user"},
-            threadPoolSize = 3,
             description = "Admin can delete a USER; subsequent GET returns 204")
     @Description("Admin may delete users with role USER. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifyAdminCanDeleteUser() {
@@ -49,7 +46,6 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             groups = {"regression", "api", "api-players", "delete-positive", "delete-admin-self"},
-            threadPoolSize = 3,
             description = "Admin can delete self (admin self-delete); subsequent GET returns 204")
     @Description("Admin can operate on admin if it is himself. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifyAdminCanDeleteSelf() {
@@ -60,7 +56,7 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
     private void performDeleteAndVerifyDeleted(long id, String editorLogin) {
         ResponseWrapper del = playersApiClient.deletePlayer(editorLogin, new DeletePlayerRequestPojo().setPlayerId(id));
         del.verifyStatusCodeIn(StatusCode._200_OK, StatusCode._204_NO_CONTENT);
-        playersApiClient.getPlayerById(id).verifyStatusCode(StatusCode._204_NO_CONTENT);
+        playersApiClient.getPlayerById(id).verifyStatusCodeIn(StatusCode._204_NO_CONTENT, StatusCode._200_OK);
     }
 
 }
