@@ -104,4 +104,5 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
         } catch (Exception ignored) {}
         return String.valueOf(v);
     }
+
 }
