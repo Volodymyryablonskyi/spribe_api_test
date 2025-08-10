@@ -81,10 +81,9 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     }
 
     private void performCreateAndVerifyCreated(PlayerRequestPojo expected) {
-        ResponseWrapper resp = createAsAdmin(expected).verifyStatusCodeCreated();
+        ResponseWrapper resp = createAsAdmin(expected).verifyStatusCodeIn(StatusCode._200_OK, StatusCode._201_CREATED);
         verifyPlayerCreatedCorrectly(expected, resp.getId());
     }
-
 
     private void verifyPlayerCreatedCorrectly(PlayerRequestPojo expected, long id) {
         ResponseWrapper getResp = playersApiClient.getPlayerById(id);

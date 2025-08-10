@@ -91,12 +91,4 @@ public class ResponseWrapper {
         return this;
     }
 
-    public ResponseWrapper verifyStatusCodeCreated() {
-        return verifyStatusCodeIn(StatusCode._200_OK, StatusCode._201_CREATED);
-    }
-
-    public ResponseWrapper verifyStatusCodeBad() {
-        return verifyStatusCodeIn(StatusCode._403_FORBIDDEN, StatusCode._400_BAD_REQUEST);
-    }
-
 }
