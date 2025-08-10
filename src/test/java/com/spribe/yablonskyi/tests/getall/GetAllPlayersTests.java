@@ -30,7 +30,7 @@ public class GetAllPlayersTests extends BasePlayerTest {
     @Description("Smoke: endpoint is reachable and responds with 200 OK.")
     public void verifyGetAllReturnsOk() {
         playersApiClient.getAllPlayers()
-                .verifyStatusCode(StatusCode._200_OK);
+                .verifyStatusCode(StatusCode.STATUS_200_OK);
     }
 
     @Test(alwaysRun = true,
@@ -53,7 +53,7 @@ public class GetAllPlayersTests extends BasePlayerTest {
     private PlayersListResponsePojo awaitGetAllContainsIds(int attempts, int sleepMs, long... ids) {
         for (int i = 0; i < attempts; i++) {
             ResponseWrapper resp = playersApiClient.getAllPlayers()
-                    .verifyStatusCode(StatusCode._200_OK);
+                    .verifyStatusCode(StatusCode.STATUS_200_OK);
             PlayersListResponsePojo list = resp.asPojo(PlayersListResponsePojo.class);
 
             Set<Long> present = list.getPlayers().stream()

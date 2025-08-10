@@ -24,10 +24,10 @@ public class GetPlayerByIdPositiveTests extends BasePlayerTest {
     @Description("Create player (editor = ADMIN), then /player/get by id must return 200 and fields equal to the created payload.")
     public void verifyGetByIdReturnsPlayerAndMatchesData() {
         PlayerRequestPojo expected = playersDataGenerator.get().generateValidPlayer(Role.USER.getLogin());
-        var createResp = playersApiClient.createPlayer(ADMIN, expected).verifyStatusCodeIn(StatusCode._200_OK, StatusCode._201_CREATED);
+        var createResp = playersApiClient.createPlayer(ADMIN, expected).verifyStatusCodeIn(StatusCode.STATUS_200_OK, StatusCode.STATUS_201_CREATED);
         registerIfCreated(createResp);
         long id = createResp.getId();
-        ResponseWrapper getResp = playersApiClient.getPlayerById(id).verifyStatusCodeIn(StatusCode._200_OK, StatusCode._204_NO_CONTENT);
+        ResponseWrapper getResp = playersApiClient.getPlayerById(id).verifyStatusCodeIn(StatusCode.STATUS_200_OK, StatusCode.STATUS_204_NO_CONTENT);
         PlayerResponsePojo actual = getResp.asPojo(PlayerResponsePojo.class);
         PlayerVerifier.verifyThat(actual)
                 .matches(expected)

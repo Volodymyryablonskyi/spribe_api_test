@@ -26,13 +26,14 @@ src/
     clients/            # PlayersApiClient (thin HTTP wrapper)
     config/             # RestAssuredConfigurator, config loading
     constants/          # Constants (e.g., BASE_URI)
+    endpoints/          # Classes with String ndpoints 
     http/               # Request/response helpers (ResponseWrapper, StatusCode)
     pojo/               # DTOs
     util/               # Randomizer, Sleep, TimeUtil, logging utils
 
   test/java/
     base/               # BaseTest, BasePlayerTest (ThreadLocal state, cleanup, helpers)
-    listeners/          # GlobalTestListener (suite logs)
+    listeners/          # GlobalTestListener 
     tests/
       access/           # Role access checks
       create/           # Positive/Negative Create
@@ -43,13 +44,6 @@ src/
   test/resources/
     testng.xml          # Suite (parallel=methods via Surefire)
 ```
-
-Key features:
-- **Thread-safe** data generators & cleanup via `ThreadLocal` and `@AfterMethod`.
-- **Helpers** like `awaitNoContent(...)` and “get-all until appears” to handle eventual consistency.
-- **Minimal client** + **ResponseWrapper** with readable status checks.
-
----
 
 ## How to run
 
@@ -81,23 +75,12 @@ Common groups include:
 - `update-positive`, `update-negative`
 - `delete-positive`, `delete-negative`
 - `get-positive`, `get-negative`, `get-all`, `get-by-id`
-- `access`
+- `role-player-access`
 
 Example:
 ```bash
 mvn clean test -Dgroups="create-positive,delete-negative"
 ```
-
-### 6) Run one class or test method
-```bash
-# one class
-mvn -Dtest=com.spribe.yablonskyi.tests.delete.DeletePlayerPositiveTests test
-
-# one method
-mvn -Dtest=com.spribe.yablonskyi.tests.delete.DeletePlayerPositiveTests#verifyAdminCanDeleteUser test
-```
-
----
 
 ## Allure report
 
@@ -121,10 +104,10 @@ allure open target/allure-report
 
 All settings are exposed via **system properties** (Maven `-D`):
 
-| Property      | What it does                                    | Default (pom) |
-|---------------|--------------------------------------------------|----------------|
-| `base.uri`    | Target API base URL                              | from `Constants.BASE_URI` |
-| `threads`     | TestNG/Surefire `threadCount` (parallel=methods) | `1`            |
+| Property      | What it does                                    | Default (pom)                 |
+|---------------|--------------------------------------------------|-------------------------------|
+| `base.uri`    | Target API base URL                              | from `application.properties` |
+| `threads`     | TestNG/Surefire `threadCount` (parallel=methods) | `3`                           |
 
 Example:
 ```bash
