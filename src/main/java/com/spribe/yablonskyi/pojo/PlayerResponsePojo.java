@@ -1,5 +1,7 @@
 package com.spribe.yablonskyi.pojo;
 
+import java.util.Objects;
+
 public class PlayerResponsePojo {
 
     private int age;
@@ -71,5 +73,37 @@ public class PlayerResponsePojo {
     public PlayerResponsePojo setScreenName(String screenName) {
         this.screenName = screenName;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerResponsePojo{" +
+                "age=" + age +
+                ", gender='" + gender + '\'' +
+                ", id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                ", screenName='" + screenName + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PlayerResponsePojo)) return false;
+        PlayerResponsePojo that = (PlayerResponsePojo) o;
+        return age == that.age &&
+                id == that.id &&
+                Objects.equals(gender, that.gender) &&
+                Objects.equals(login, that.login) &&
+                Objects.equals(password, that.password) &&
+                Objects.equals(role, that.role) &&
+                Objects.equals(screenName, that.screenName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(age, gender, id, login, password, role, screenName);
     }
 }

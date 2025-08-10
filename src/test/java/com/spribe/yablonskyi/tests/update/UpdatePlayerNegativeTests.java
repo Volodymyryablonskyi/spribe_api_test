@@ -15,7 +15,7 @@ import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
 
-@Epic("Player Management")
+@Epic("Players Controller API")
 @Feature("Update Player")
 @Story("Negative update scenarios")
 public class UpdatePlayerNegativeTests extends BasePlayerTest {
@@ -29,9 +29,9 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
             description = "Update player with invalid 'age' must return 400 Bad Request and not change entity")
     @Description("Age must be >16 and <60. Out-of-range or non-numeric should be rejected.")
     public void verifyUpdateRejectsInvalidAges(String badAge) {
-        PlayerResponsePojo before = createUser(Role.USER, SUPERVISOR);
+        PlayerResponsePojo before = createUser(Role.USER, ADMIN);
         PlayerRequestPojo partial = new PlayerRequestPojo().setAge(badAge);
-        performUpdateAndVerifyNotUpdated(before.getId(), SUPERVISOR, before, partial, StatusCode._400_BAD_REQUEST);
+        performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode._400_BAD_REQUEST);
     }
 
     // ---------- GENDER: invalid -> 400 ----------
@@ -43,9 +43,9 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
             description = "Update player with invalid 'gender' must return 400 Bad Request and not change entity")
     @Description("Only 'male'/'female' are allowed. Any other value should be rejected.")
     public void verifyUpdateRejectsInvalidGenders(String badGender) {
-        PlayerResponsePojo before = createUser(Role.USER, SUPERVISOR);
+        PlayerResponsePojo before = createUser(Role.USER, ADMIN);
         PlayerRequestPojo partial = new PlayerRequestPojo().setGender(badGender);
-        performUpdateAndVerifyNotUpdated(before.getId(), SUPERVISOR, before, partial, StatusCode._400_BAD_REQUEST);
+        performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode._400_BAD_REQUEST);
     }
 
     // ---------- PASSWORD: invalid -> 400 ----------
@@ -57,9 +57,9 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
             description = "Update player with invalid 'password' must return 400 Bad Request and not change entity")
     @Description("Password must be alphanumeric 7..15 with at least one letter and one digit.")
     public void verifyUpdateRejectsInvalidPasswords(String badPassword) {
-        PlayerResponsePojo before = createUser(Role.USER, SUPERVISOR);
+        PlayerResponsePojo before = createUser(Role.USER, ADMIN);
         PlayerRequestPojo partial = new PlayerRequestPojo().setPassword(badPassword);
-        performUpdateAndVerifyNotUpdated(before.getId(), SUPERVISOR, before, partial, StatusCode._400_BAD_REQUEST);
+        performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode._400_BAD_REQUEST);
     }
 
     // ---------- LOGIN: duplicate -> 409 ----------
@@ -69,10 +69,10 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
             description = "Update 'login' to a duplicate must return 409 Conflict and not change entity")
     @Description("Login is unique. Trying to set an existing login on another user must fail.")
     public void verifyUpdateRejectsDuplicateLogin() {
-        PlayerResponsePojo userA = createUser(Role.USER, SUPERVISOR);
-        PlayerResponsePojo userB = createUser(Role.USER, SUPERVISOR);
+        PlayerResponsePojo userA = createUser(Role.USER, ADMIN);
+        PlayerResponsePojo userB = createUser(Role.USER, ADMIN);
         PlayerRequestPojo partial = new PlayerRequestPojo().setLogin(userA.getLogin());
-        performUpdateAndVerifyNotUpdated(userB.getId(), SUPERVISOR, userB, partial, StatusCode._409_CONFLICT);
+        performUpdateAndVerifyNotUpdated(userB.getId(), ADMIN, userB, partial, StatusCode._409_CONFLICT);
     }
 
     // ---------- SCREEN NAME: duplicate -> 409 ----------
@@ -82,10 +82,10 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
             description = "Update 'screenName' to a duplicate must return 409 Conflict and not change entity")
     @Description("screenName is unique. Trying to set an existing screenName on another user must fail.")
     public void verifyUpdateRejectsDuplicateScreenName() {
-        PlayerResponsePojo userA = createUser(Role.USER, SUPERVISOR);
-        PlayerResponsePojo userB = createUser(Role.USER, SUPERVISOR);
+        PlayerResponsePojo userA = createUser(Role.USER, ADMIN);
+        PlayerResponsePojo userB = createUser(Role.USER, ADMIN);
         PlayerRequestPojo partial = new PlayerRequestPojo().setScreenName(userA.getScreenName());
-        performUpdateAndVerifyNotUpdated(userB.getId(), SUPERVISOR, userB, partial, StatusCode._409_CONFLICT);
+        performUpdateAndVerifyNotUpdated(userB.getId(), ADMIN, userB, partial, StatusCode._409_CONFLICT);
     }
 
     protected ResponseWrapper performUpdateAndVerifyNotUpdated(long id, String editorLogin, PlayerResponsePojo before, PlayerRequestPojo partial, StatusCode expected) {

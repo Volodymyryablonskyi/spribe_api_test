@@ -37,4 +37,5 @@ public class RestAssuredConfigurator {
                 .addHeader("Accept", "application/json")
                 .build();
     }
+
 }

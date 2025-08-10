@@ -65,9 +65,10 @@ public class PlayerRequestPojo {
         return this;
     }
 
+
     @Override
     public String toString() {
-        return "Player {" +
+        return "PlayerRequestPojo{" +
                 "age='" + age + '\'' +
                 ", gender='" + gender + '\'' +
                 ", login='" + login + '\'' +
@@ -80,7 +81,7 @@ public class PlayerRequestPojo {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof PlayerRequestPojo)) return false;
         PlayerRequestPojo that = (PlayerRequestPojo) o;
         return Objects.equals(age, that.age) &&
                 Objects.equals(gender, that.gender) &&

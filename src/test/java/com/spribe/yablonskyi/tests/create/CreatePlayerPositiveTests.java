@@ -11,19 +11,16 @@ import com.spribe.yablonskyi.pojo.PlayerResponsePojo;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
-@Epic("Player Management")
-@Feature("Create Player")
-@Story("Positive create scenarios")
+@Epic("Players Controller API")
+@Feature("Create Player Positive cases")
 public class CreatePlayerPositiveTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             dataProvider = "editorsAndTargets",
             dataProviderClass = PositiveDataProviders.class,
-            groups = {"regression","api","api-players","create-positive","create-editor-role"},
-            threadPoolSize = 3,
+            groups = {"regression", "api", "api-players", "create-player-positive","create-editor-role"},
             description = "Create player: SUPERVISOR creates ADMIN/USER and response matches request")
     @Description("SUPERVISOR can create users with roles ADMIN/USER. ID is registered for cleanup; payload in response equals request.")
     public void verifyCreateAllowsSupervisorForAdminAndUser(Role ignoredEditor, Role targetRole) {
@@ -34,7 +31,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     @Test(alwaysRun = true,
             dataProvider = "boundaryAges",
             dataProviderClass = PositiveDataProviders.class,
-            groups = {"regression","api","api-players","create-positive","create-age"},
+            groups = {"regression","api","api-players","create-player-positive","create-edge-age"},
             threadPoolSize = 3,
             description = "Create player with boundary age (17 or 59) and response matches request")
     @Description("Age must be >16 and <60. Boundaries 17 and 59 are accepted and persisted as-is.")
@@ -47,7 +44,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     @Test(alwaysRun = true,
             dataProvider = "allowedGenders",
             dataProviderClass = PositiveDataProviders.class,
-            groups = {"regression","api","api-players","create-positive","create-gender"},
+            groups = {"regression","api","api-players","create-player-positive","create-valid-gender"},
             threadPoolSize = 3,
             description = "Create player with allowed gender (male/female) and response matches request")
     @Description("Gender must be either 'male' or 'female'. Persisted value equals requested.")
@@ -60,7 +57,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     @Test(alwaysRun = true,
             dataProvider = "passwordLengths",
             dataProviderClass = PositiveDataProviders.class,
-            groups = {"regression","api","api-players","create-positive","create-password"},
+            groups = {"regression","api","api-players","create-player-positive","create-valid-password"},
             threadPoolSize = 3,
             description = "Create player with valid password length (7..15) and response matches request")
     @Description("Password must be alphanumeric 7..15 with at least one letter and one digit.")
@@ -71,7 +68,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     }
 
     @Test(alwaysRun = true,
-            groups = {"regression","api","api-players","create-positive","create-optional"},
+            groups = {"regression","api","api-players","create-player-positive","create-password-optional"},
             threadPoolSize = 3,
             description = "Create player without optional 'password' and response matches request")
     @Description("Password is optional; creation without password should succeed and persist accordingly (per API behavior).")
@@ -83,8 +80,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     }
 
     private void performCreateAndVerifyCreated(PlayerRequestPojo expected) {
-        ResponseWrapper resp = createAsSupervisor(expected);
-        Assertions.assertCreated(resp.statusCode());
+        ResponseWrapper resp = createAsAdmin(expected).verifyStatusCodeCreated();
         verifyPlayerCreatedCorrectly(expected, resp.getId());
     }
 
@@ -94,10 +90,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
             throw new AssertionError("GET by id failed. code=" + getResp.statusCode() + " body=" + getResp.asString());
         }
         PlayerResponsePojo actual = getResp.asPojo(PlayerResponsePojo.class);
-        PlayerVerifier.verifyThat(actual)
-                .matches(expected)
-                .hasValidId()
-                .assertAll();
+        PlayerVerifier.verifyMatches(expected, actual);
     }
 
 }

@@ -18,8 +18,8 @@ import java.util.Deque;
 public class BasePlayerTest extends BaseTest {
 
     protected static final String BASE_URL = Constants.BASE_URI;
-    protected final static String SUPERVISOR = Role.SUPERVISOR.getLogin();
     protected final static String ADMIN = Role.ADMIN.getLogin();
+    protected final static String SUPERVISOR = Role.SUPERVISOR.getLogin();
     protected final ThreadLocal<Deque<Long>> createdIds = ThreadLocal.withInitial(ArrayDeque::new);
     protected final ThreadLocal<PlayerDataGenerator> playersDataGenerator = ThreadLocal.withInitial(PlayerDataGenerator::new);
     protected PlayersApiClient playersApiClient;
@@ -35,7 +35,7 @@ public class BasePlayerTest extends BaseTest {
         while (!stack.isEmpty()) {
             long id = stack.pollFirst();
             try {
-                playersApiClient.deletePlayer(SUPERVISOR, new DeletePlayerRequestPojo().setPlayerId(id));
+                playersApiClient.deletePlayer(ADMIN, new DeletePlayerRequestPojo().setPlayerId(id));
             } catch (Throwable ignored) {  }
         }
     }
@@ -78,8 +78,8 @@ public class BasePlayerTest extends BaseTest {
         }
     }
 
-    protected ResponseWrapper createAsSupervisor(PlayerRequestPojo req) {
-        ResponseWrapper resp = playersApiClient.createPlayer(SUPERVISOR, req);
+    protected ResponseWrapper createAsAdmin(PlayerRequestPojo req) {
+        ResponseWrapper resp = playersApiClient.createPlayer(ADMIN, req);
         registerIfCreated(resp);
         return resp;
     }

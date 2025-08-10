@@ -13,7 +13,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
-@Epic("Player Management")
+@Epic("Players Controller API")
 @Feature("Get All Players")
 @Story("Positive get-all scenarios")
 public class GetAllPlayersTests extends BasePlayerTest {
@@ -34,8 +34,8 @@ public class GetAllPlayersTests extends BasePlayerTest {
             description = "GET /player/get/all contains users created in this test")
     @Description("Create two users via SUPERVISOR, then assert their presence in the get-all response (by id/screenName).")
     public void verifyGetAllContainsNewlyCreatedPlayers() {
-        PlayerResponsePojo admin = createUser(Role.ADMIN, SUPERVISOR);
-        PlayerResponsePojo user  = createUser(Role.USER,  SUPERVISOR);
+        PlayerResponsePojo admin = createUser(Role.ADMIN, ADMIN);
+        PlayerResponsePojo user  = createUser(Role.USER, ADMIN);
         ResponseWrapper resp = playersApiClient.getAllPlayers()
                 .verifyStatusCode(StatusCode._200_OK);
         var list = resp.asPojo(PlayersListResponsePojo.class);

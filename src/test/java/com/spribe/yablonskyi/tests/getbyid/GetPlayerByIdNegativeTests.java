@@ -13,7 +13,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
-@Epic("Player Management")
+@Epic("Players Controller API")
 @Feature("Get Player")
 @Story("Negative get-by-id scenarios")
 public class GetPlayerByIdNegativeTests extends BasePlayerTest {
@@ -24,8 +24,8 @@ public class GetPlayerByIdNegativeTests extends BasePlayerTest {
             description = "GET by id for a deleted player must return 204 No Content")
     @Description("Create USER via SUPERVISOR, delete it, then GET by id should return 204 (entity not found).")
     public void verifyGetByIdReturnsNoContentForDeletedPlayer() {
-        PlayerResponsePojo created = createUser(Role.USER, SUPERVISOR);
-        playersApiClient.deletePlayer(SUPERVISOR, new DeletePlayerRequestPojo().setPlayerId(created.getId()))
+        PlayerResponsePojo created = createUser(Role.USER, ADMIN);
+        playersApiClient.deletePlayer(ADMIN, new DeletePlayerRequestPojo().setPlayerId(created.getId()))
                 .verifyStatusCodeIn(StatusCode._200_OK, StatusCode._204_NO_CONTENT);
 
         verifyPlayerNotFound(created.getId());

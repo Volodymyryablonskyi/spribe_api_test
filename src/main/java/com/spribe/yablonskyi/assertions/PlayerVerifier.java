@@ -2,9 +2,12 @@ package com.spribe.yablonskyi.assertions;
 
 import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.PlayerResponsePojo;
+import com.spribe.yablonskyi.util.CustomLogger;
 import org.testng.asserts.SoftAssert;
 
 public class PlayerVerifier {
+
+    private static CustomLogger log = CustomLogger.getLogger(PlayerVerifier.class);
 
     private final PlayerResponsePojo actual;
     private final SoftAssert soft;
@@ -44,6 +47,18 @@ public class PlayerVerifier {
 
     public void assertAll() {
         soft.assertAll();
+    }
+
+    public static void verifyMatches(PlayerRequestPojo req, PlayerResponsePojo resp) {
+        log.info("Verify Request - {} matches with Response - {}", req, resp);
+        SoftAssert sa = new SoftAssert();
+        sa.assertEquals(resp.getLogin(), req.getLogin(), "Login mismatch");
+        sa.assertEquals(resp.getRole(), req.getRole(), "Role mismatch");
+        sa.assertEquals(String.valueOf(resp.getAge()), req.getAge(), "Age mismatch");
+        sa.assertEquals(resp.getGender(), req.getGender(), "Gender mismatch");
+        sa.assertEquals(resp.getScreenName(), req.getScreenName(), "ScreenName mismatch");
+        sa.assertTrue(resp.getId() > 0, "ID must be greater than 0");
+        sa.assertAll();
     }
 
 }

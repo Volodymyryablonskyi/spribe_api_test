@@ -16,15 +16,4 @@ public class PojoConverter {
         return objectMapper.convertValue(pojo, new TypeReference<>() {});
     }
 
-    /**
-     * Converts POJO to JSON string
-     */
-    public static String toJson(Object pojo) {
-        try {
-            return objectMapper.writeValueAsString(pojo);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to convert to JSON", e);
-        }
-    }
-
 }

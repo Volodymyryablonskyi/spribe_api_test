@@ -8,8 +8,13 @@ import com.spribe.yablonskyi.http.response.StatusCode;
 import com.spribe.yablonskyi.pojo.DeletePlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
 
+
+@Epic("Players Controller API")
+@Feature("Create Player Negative")
 public class CreatePlayerNegativeTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
@@ -97,7 +102,7 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
     @Description("Login must be unique. Creating another player with the same login should fail.")
     public void verifyCreateRejectsDuplicateLogin() {
         PlayerRequestPojo base = playersDataGenerator.get().generateValidPlayer(Role.USER.getLogin());
-        createAsSupervisor(base);
+        createAsAdmin(base);
         PlayerRequestPojo dup = playersDataGenerator.get()
                 .generateValidPlayer(Role.USER.getLogin())
                 .setLogin(base.getLogin());
@@ -112,7 +117,7 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
     @Description("ScreenName must be unique. Creating another player with the same screenName should fail.")
     public void verifyCreateRejectsDuplicateScreenName() {
         PlayerRequestPojo base = playersDataGenerator.get().generateValidPlayer(Role.USER.getLogin());
-        createAsSupervisor(base);
+        createAsAdmin(base);
         PlayerRequestPojo dup = playersDataGenerator.get()
                 .generateValidPlayer(Role.USER.getLogin())
                 .setScreenName(base.getScreenName());
@@ -120,12 +125,12 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
     }
 
     private void performCreateAndVerifyNotCreated(PlayerRequestPojo req, StatusCode expected) {
-        ResponseWrapper resp = playersApiClient.createPlayer(SUPERVISOR, req);
+        ResponseWrapper resp = playersApiClient.createPlayer(ADMIN, req);
         if (resp.statusCode() == StatusCode._200_OK || resp.statusCode() == StatusCode._201_CREATED) {
             Long id = resp.getId();
             if (id != null && id > 0) {
                 try {
-                    playersApiClient.deletePlayer(SUPERVISOR, new DeletePlayerRequestPojo().setPlayerId(id));
+                    playersApiClient.deletePlayer(ADMIN, new DeletePlayerRequestPojo().setPlayerId(id));
                 } catch (Throwable ignored) { }
             }
         }

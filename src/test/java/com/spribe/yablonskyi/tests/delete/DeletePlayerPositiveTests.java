@@ -12,7 +12,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
-@Epic("Player Management")
+@Epic("Players Controller API")
 @Feature("Delete Player")
 @Story("Positive delete scenarios")
 public class DeletePlayerPositiveTests extends BasePlayerTest {
@@ -23,8 +23,8 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
             description = "Supervisor can delete an ADMIN; subsequent GET returns 204")
     @Description("Supervisor may delete admin. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifySupervisorCanDeleteAdmin() {
-        PlayerResponsePojo target = createUser(Role.ADMIN, SUPERVISOR);
-        performDeleteAndVerifyDeleted(target.getId(), SUPERVISOR);
+        PlayerResponsePojo target = createUser(Role.ADMIN, ADMIN);
+        performDeleteAndVerifyDeleted(target.getId(), ADMIN);
     }
 
     @Test(alwaysRun = true,
@@ -33,8 +33,8 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
             description = "Supervisor can delete a USER; subsequent GET returns 204")
     @Description("Supervisor may delete user. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifySupervisorCanDeleteUser() {
-        PlayerResponsePojo target = createUser(Role.USER, SUPERVISOR);
-        performDeleteAndVerifyDeleted(target.getId(), SUPERVISOR);
+        PlayerResponsePojo target = createUser(Role.USER, ADMIN);
+        performDeleteAndVerifyDeleted(target.getId(), ADMIN);
     }
 
     @Test(alwaysRun = true,
@@ -43,7 +43,7 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
             description = "Admin can delete a USER; subsequent GET returns 204")
     @Description("Admin may delete users with role USER. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifyAdminCanDeleteUser() {
-        PlayerResponsePojo target = createUser(Role.USER, SUPERVISOR); // створюємо через супервізора
+        PlayerResponsePojo target = createUser(Role.USER, ADMIN); // створюємо через супервізора
         performDeleteAndVerifyDeleted(target.getId(), ADMIN);
     }
 
@@ -53,7 +53,7 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
             description = "Admin can delete self (admin self-delete); subsequent GET returns 204")
     @Description("Admin can operate on admin if it is himself. Verify delete returns 200/204 and GET by id -> 204.")
     public void verifyAdminCanDeleteSelf() {
-        PlayerResponsePojo target = createUser(Role.ADMIN, SUPERVISOR);
+        PlayerResponsePojo target = createUser(Role.ADMIN, ADMIN);
         performDeleteAndVerifyDeleted(target.getId(), target.getLogin());
     }
 
