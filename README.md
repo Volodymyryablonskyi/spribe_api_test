@@ -82,7 +82,7 @@ Common groups include:
 - `update-positive`, `update-negative`
 - `delete-positive`, `delete-negative`
 - `get-positive`, `get-negative`, `get-all`, `get-by-id`
-- `access`
+- `role-player-access`
 
 Example:
 ```bash

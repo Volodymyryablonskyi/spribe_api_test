@@ -20,7 +20,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     @Test(alwaysRun = true,
             dataProvider = "editorsAndTargets",
             dataProviderClass = PositiveDataProviders.class,
-            groups = {"regression", "api", "api-players", "create-player-positive","create-editor-role"},
+            groups = {"regression", "api", "api-players", "create-positive","create-editor-role"},
             description = "Create player: allowed editor/target combos per role model")
     @Description("SUPERVISOR can create ADMIN/USER; ADMIN can create USER. Response matches request.")
     public void verifyCreateAllowsValidEditorTargetCombos(Role editor, Role targetRole) {
@@ -36,7 +36,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     @Test(alwaysRun = true,
             dataProvider = "boundaryAges",
             dataProviderClass = PositiveDataProviders.class,
-            groups = {"regression","api","api-players","create-player-positive","create-edge-age"},
+            groups = {"regression","api","api-players","create-positive","create-edge-age"},
             description = "Create player with boundary age (17 or 59) and response matches request")
     @Description("Age must be >16 and <60. Boundaries 17 and 59 are accepted and persisted as-is.")
     public void verifyCreateAcceptsBoundaryAges(String age) {
@@ -48,7 +48,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     @Test(alwaysRun = true,
             dataProvider = "allowedGenders",
             dataProviderClass = PositiveDataProviders.class,
-            groups = {"regression","api","api-players","create-player-positive","create-valid-gender"},
+            groups = {"regression","api","api-players","create-positive","create-valid-gender"},
             description = "Create player with allowed gender (male/female) and response matches request")
     @Description("Gender must be either 'male' or 'female'. Persisted value equals requested.")
     public void verifyCreateAcceptsAllowedGenders(String gender) {
@@ -60,7 +60,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     @Test(alwaysRun = true,
             dataProvider = "passwordLengths",
             dataProviderClass = PositiveDataProviders.class,
-            groups = {"regression","api","api-players","create-player-positive","create-valid-password"},
+            groups = {"regression","api","api-players","create-positive","create-valid-password"},
             description = "Create player with valid password length (7..15) and response matches request")
     @Description("Password must be alphanumeric 7..15 with at least one letter and one digit.")
     public void verifyCreateAcceptsValidPasswordLengths(int length) {
@@ -70,7 +70,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     }
 
     @Test(alwaysRun = true,
-            groups = {"regression","api","api-players","create-player-positive","create-password-optional"},
+            groups = {"regression","api","api-players","create-positive","create-password-optional"},
             description = "Create player without optional 'password' and response matches request")
     @Description("Password is optional; creation without password should succeed and persist accordingly (per API behavior).")
     public void verifyCreateAcceptsMissingOptionalPassword() {
