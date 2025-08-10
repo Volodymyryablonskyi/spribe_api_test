@@ -1,6 +1,5 @@
 package com.spribe.yablonskyi.listeners;
 
-import com.spribe.yablonskyi.base.BaseTest;
 import com.spribe.yablonskyi.util.CustomLogger;
 import com.spribe.yablonskyi.util.CustomLogger.LogLevel;
 import com.spribe.yablonskyi.util.TimeUtil;
@@ -18,7 +17,6 @@ import java.util.Objects;
 public class GlobalTestListener extends AllureTestNg implements ITestListener, ISuiteListener {
 
     private LocalTime startSuiteTime;
-
     private static final CustomLogger log = CustomLogger.getLogger(GlobalTestListener.class, false);
 
     @Override
@@ -47,50 +45,28 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
 
     @Override
     public void onTestStart(ITestResult result) {
-        String methodName = result.getMethod().getMethodName();
-        if (getRerun(result)) {
-            log.logHeader("RETRYING: " + methodName, LogLevel.INFO);
-        } else {
-            log.logHeader("STARTED: " + methodName, LogLevel.INFO);
-        }
-        String testDescription = result.getMethod().getDescription();
-        if (testDescription != null && !testDescription.isBlank()) {
-            log.info("Description: " + testDescription);
-        }
+        log.logHeader("STARTED: " + result.getMethod().getMethodName(), LogLevel.INFO);
         tryLogDescription(result);
         tryLogTestParameters(result);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        String methodName = result.getMethod().getMethodName();
-        if (getRerun(result)) {
-            log.logHeader("PASSED IN RETRY: " + methodName, LogLevel.INFO);
-        } else {
-            log.logHeader("PASSED: " + methodName, LogLevel.INFO);
-        }
-        setRerun(false);
+        log.logHeader("PASSED: " + result.getMethod().getMethodName(), LogLevel.INFO);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        String methodName = result.getMethod().getMethodName();
-        if (getRerun(result)) {
-            log.logHeader("FAILED IN RETRY: " + methodName, LogLevel.WARN);
-        } else {
-            log.logHeader("FAILED: " + methodName, LogLevel.ERROR);
-            Throwable throwable = result.getThrowable();
-            if (!Objects.isNull(throwable)) {
-                log.error("ERROR: ", throwable);
-            }
+        log.logHeader("FAILED: " + result.getMethod().getMethodName(), LogLevel.ERROR);
+        Throwable t = result.getThrowable();
+        if (!Objects.isNull(t)) {
+            log.error("ERROR: ", t);
         }
-        setRerun(false);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        String methodName = result.getMethod().getMethodName();
-        log.logHeader("SKIPPED: " + methodName, LogLevel.WARN);
+        log.logHeader("SKIPPED: " + result.getMethod().getMethodName(), LogLevel.WARN);
     }
 
     private void tryLogDescription(ITestResult result) {
@@ -103,10 +79,11 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
     private void tryLogTestParameters(ITestResult result) {
         Object[] values = result.getParameters();
         if (values == null || values.length == 0) return;
-        Method method = null;
-        if (result.getMethod() != null && result.getMethod().getConstructorOrMethod() != null) {
-            method = result.getMethod().getConstructorOrMethod().getMethod();
-        }
+
+        Method method = (result.getMethod() != null && result.getMethod().getConstructorOrMethod() != null)
+                ? result.getMethod().getConstructorOrMethod().getMethod()
+                : null;
+
         Parameter[] params = method != null ? method.getParameters() : new Parameter[0];
         Map<String, Object> kv = new LinkedHashMap<>();
         for (int i = 0; i < values.length; i++) {
@@ -127,13 +104,4 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
         } catch (Exception ignored) {}
         return String.valueOf(v);
     }
-
-    private boolean getRerun(ITestResult result) {
-        return BaseTest.getRerun();
-    }
-
-    private void setRerun(boolean rerun) {
-        BaseTest.setRerun(rerun);
-    }
-
 }

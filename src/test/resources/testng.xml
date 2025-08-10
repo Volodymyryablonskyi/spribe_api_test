@@ -1,7 +1,6 @@
 <suite name="Players API Automation Suite" verbose="2" time-out="30000">
 
     <listeners>
-        <listener class-name="com.spribe.yablonskyi.listeners.RetryTransformer"/>
         <listener class-name="com.spribe.yablonskyi.listeners.GlobalTestListener"/>
     </listeners>
 

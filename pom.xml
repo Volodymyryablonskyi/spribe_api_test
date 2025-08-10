@@ -20,7 +20,8 @@
         <jackson.version>2.19.2</jackson.version>
         <io.vavr.version>0.10.7</io.vavr.version>
         <allure.version>2.29.1</allure.version>
-        <threads>1</threads>
+        <base.uri>http://3.68.165.45</base.uri>
+        <threads>3</threads>
 
     </properties>
 
@@ -107,6 +108,7 @@
                     </suiteXmlFiles>
                     <testFailureIgnore>false</testFailureIgnore>
                     <systemPropertyVariables>
+                        <retry.count>1</retry.count>
                         <allure.results.directory>target/allure-results</allure.results.directory>
                         <threads>${threads}</threads>
                     </systemPropertyVariables>
