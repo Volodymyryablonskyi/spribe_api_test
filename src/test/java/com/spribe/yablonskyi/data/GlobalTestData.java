@@ -12,5 +12,4 @@ public class GlobalTestData {
     public static final String PASSWORD = "Password";
     public static final String PASSWORD_LENGTH = "PasswordLength";
     public static final String ACTUAL = "Actual";
-
 }

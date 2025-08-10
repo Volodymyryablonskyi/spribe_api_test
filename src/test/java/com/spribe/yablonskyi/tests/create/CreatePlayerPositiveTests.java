@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 @Epic("Player Management")
 @Feature("Create Player")
 @Story("Positive create scenarios")
-public class CreatePositiveTests extends BasePlayerTest {
+public class CreatePlayerPositiveTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             dataProvider = "editorsAndTargets",

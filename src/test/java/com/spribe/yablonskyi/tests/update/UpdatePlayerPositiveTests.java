@@ -1,18 +1,16 @@
 package com.spribe.yablonskyi.tests.update;
 
 import com.spribe.yablonskyi.assertions.PlayerAssertions;
-import com.spribe.yablonskyi.assertions.PlayerVerifier;
 import com.spribe.yablonskyi.base.BasePlayerTest;
 import com.spribe.yablonskyi.data.Role;
 import com.spribe.yablonskyi.data.providers.PositiveDataProviders;
-import com.spribe.yablonskyi.http.response.ResponseWrapper;
 import com.spribe.yablonskyi.http.response.StatusCode;
 import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.PlayerResponsePojo;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
-public class UpdatePositiveTests extends BasePlayerTest {
+public class UpdatePlayerPositiveTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             dataProvider = "boundaryAges",

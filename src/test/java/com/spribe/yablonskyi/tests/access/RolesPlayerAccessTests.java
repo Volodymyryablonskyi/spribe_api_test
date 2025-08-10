@@ -15,8 +15,7 @@ import org.testng.annotations.Test;
 @Epic("Player Management")
 @Feature("Access Control")
 @Story("Role-based access to player operations")
-public class RolesAccessTests extends BasePlayerTest {
-
+public class RolesPlayerAccessTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             dataProvider = "createAccess",

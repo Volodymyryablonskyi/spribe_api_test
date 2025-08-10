@@ -10,7 +10,7 @@ import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
-public class CreateNegativeTests extends BasePlayerTest {
+public class CreatePlayerNegativeTests extends BasePlayerTest {
 
     // ---------- INVALID AGE -> 400 ----------
     @Test(alwaysRun = true,

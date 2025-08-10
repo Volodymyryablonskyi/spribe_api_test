@@ -8,16 +8,12 @@ public class NegativeDataProvider {
 
     @DataProvider(name = "invalidAges", parallel = true)
     public Object[][] invalidAges() {
-        return new Object[][]{
-                {"16"}, {"60"}, {"-1"}, {"0"}, {"120"}, {"abc"}
-        };
+        return new Object[][]{{"16"}, {"60"}, {"-1"}, {"0"}, {"120"}, {"abc"}};
     }
 
     @DataProvider(name = "invalidGenders", parallel = true)
     public Object[][] invalidGenders() {
-        return new Object[][]{
-                {""}, {"unknown"}, {"MALE"}, {"Female "}, {"mAle"}
-        };
+        return new Object[][]{{""}, {"unknown"}, {"MALE"}, {"Female "}, {"mAle"}};
     }
 
     @DataProvider(name = "invalidPasswords", parallel = true)
@@ -34,16 +30,17 @@ public class NegativeDataProvider {
 
     @DataProvider(name = "invalidRolesOnCreate", parallel = true)
     public Object[][] invalidRolesOnCreate() {
-        return new Object[][]{
-                {Role.SUPERVISOR.getLogin()}, {"root"}, {""}, {"manager"}
-        };
+        return new Object[][]{{Role.SUPERVISOR.getLogin()}, {"root"}, {""}, {"manager"}};
     }
 
     @DataProvider(name = "missingRequiredFields", parallel = true)
     public Object[][] missingRequiredFields() {
-        return new Object[][]{
-                {"age"}, {"gender"}, {"login"}, {"role"}, {"screenName"}
-        };
+        return new Object[][]{{"age"}, {"gender"}, {"login"}, {"role"}, {"screenName"}};
+    }
+
+    @DataProvider(name = "invalidIds", parallel = true)
+    public Object[][] invalidIds() {
+        return new Object[][]{{0L}, {-1L},};
     }
 
 

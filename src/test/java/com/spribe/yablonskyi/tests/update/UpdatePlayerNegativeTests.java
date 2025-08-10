@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 @Epic("Player Management")
 @Feature("Update Player")
 @Story("Negative update scenarios")
-public class UpdateNegativeTests extends BasePlayerTest {
+public class UpdatePlayerNegativeTests extends BasePlayerTest {
 
     // ---------- AGE: invalid -> 400 ----------
     @Test(alwaysRun = true,
