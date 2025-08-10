@@ -16,4 +16,5 @@ public class PlayerAssertions {
         s.assertTrue(actual.getId() > 0, "ID must be greater than 0");
         s.assertAll();
     }
+
 }

@@ -27,6 +27,16 @@ public class PlayerVerifier {
         return this;
     }
 
+    public PlayerVerifier equalsTo(PlayerResponsePojo expected) {
+        soft.assertEquals(actual.getLogin(), expected.getLogin(), "Login changed unexpectedly");
+        soft.assertEquals(actual.getScreenName(), expected.getScreenName(), "ScreenName changed unexpectedly");
+        soft.assertEquals(actual.getGender(), expected.getGender(), "Gender changed unexpectedly");
+        soft.assertEquals(actual.getRole(), expected.getRole(), "Role changed unexpectedly");
+        soft.assertEquals(actual.getAge(), expected.getAge(), "Age changed unexpectedly");
+        return this;
+    }
+
+
     public PlayerVerifier hasValidId() {
         soft.assertTrue(actual.getId() > 0, "ID must be greater than 0");
         return this;

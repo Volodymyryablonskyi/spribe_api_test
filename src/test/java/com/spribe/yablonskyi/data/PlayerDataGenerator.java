@@ -62,7 +62,7 @@ public class PlayerDataGenerator {
         return generateValidPlayer(role).setPassword(generateValidPassword(length));
     }
 
-    private String generateValidPassword(int len) {
+    public String generateValidPassword(int len) {
         if (len < 7 || len > 15) {
             throw new IllegalArgumentException("Password length must be 7..15, got " + len);
         }

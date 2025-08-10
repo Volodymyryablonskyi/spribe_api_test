@@ -11,13 +11,14 @@
 
     <test name="Editor Access Tests">
         <classes>
-            <class name="com.spribe.yablonskyi.tests.access.RolesAccessTests";
+            <class name="com.spribe.yablonskyi.tests.access.RolesAccessTests"/>;
         </classes>
     </test>
 
     <test name="Create Player Tests">
         <classes>
-            <class name="com.spribe.yablonskyi.tests.CreatePlayerTests"/>
+            <class name="com.spribe.yablonskyi.tests.create.CreatePositiveTests"/>
+            <class name="com.spribe.yablonskyi.tests.create.CreateNegativeTests"/>
         </classes>
     </test>
 
@@ -29,7 +30,8 @@
 
     <test name="Update Player Tests">
         <classes>
-            <class name="com.spribe.yablonskyi.tests.UpdatePlayerTests"/>
+            <class name="com.spribe.yablonskyi.tests.update.UpdatePositiveTests"/>
+            <class name="com.spribe.yablonskyi.tests.update.UpdateNegativeTests"/>
         </classes>
     </test>
 

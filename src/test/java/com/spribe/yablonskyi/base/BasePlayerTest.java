@@ -1,8 +1,9 @@
 package com.spribe.yablonskyi.base;
 
+import com.spribe.yablonskyi.assertions.Assertions;
+import com.spribe.yablonskyi.assertions.PlayerAssertions;
 import com.spribe.yablonskyi.assertions.PlayerVerifier;
 import com.spribe.yablonskyi.clients.PlayersApiClient;
-import com.spribe.yablonskyi.config.ApplicationConfig;
 import com.spribe.yablonskyi.constants.Constants;
 import com.spribe.yablonskyi.data.PlayerDataGenerator;
 import com.spribe.yablonskyi.data.Role;
@@ -71,26 +72,6 @@ public class BasePlayerTest extends BaseTest {
 
     protected void registerForCleanup(long id) { createdIds.get().addFirst(id); }
 
-    protected PlayerResponsePojo fetchPlayer(long id) {
-        var resp = playersApiClient.getPlayerById(id);
-        if (!resp.statusCode().equals(StatusCode._200_OK)) {
-            throw new AssertionError("GET by id failed. code=" + resp.statusCode() + " body=" + resp.asString());
-        }
-        return resp.asPojo(PlayerResponsePojo.class);
-    }
-
-    protected void verifyPlayerCreatedCorrectly(PlayerRequestPojo expected, long id) {
-        ResponseWrapper getResp = playersApiClient.getPlayerById(id);
-        if (!getResp.statusCode().equals(StatusCode._200_OK)) {
-            throw new AssertionError("GET by id failed. code=" + getResp.statusCode() + " body=" + getResp.asString());
-        }
-
-        PlayerResponsePojo actual = getResp.asPojo(PlayerResponsePojo.class);
-        PlayerVerifier.verifyThat(actual)
-                .matches(expected)
-                .hasValidId()
-                .assertAll();
-    }
     protected void registerIfCreated(ResponseWrapper resp) {
         if (resp.statusCode() == StatusCode._200_OK || resp.statusCode() == StatusCode._201_CREATED) {
             Long id = resp.getId();
@@ -98,6 +79,20 @@ public class BasePlayerTest extends BaseTest {
                 registerForCleanup(id);
             }
         }
+    }
+
+    protected ResponseWrapper createAsSupervisor(PlayerRequestPojo req) {
+        ResponseWrapper resp = playersApiClient.createPlayer(SUPERVISOR, req);
+        registerIfCreated(resp);
+        return resp;
+    }
+
+    protected PlayerResponsePojo fetchPlayer(long id) {
+        var resp = playersApiClient.getPlayerById(id);
+        if (!resp.statusCode().equals(StatusCode._200_OK)) {
+            throw new AssertionError("GET by id failed. code=" + resp.statusCode() + " body=" + resp.asString());
+        }
+        return resp.asPojo(PlayerResponsePojo.class);
     }
 
 }

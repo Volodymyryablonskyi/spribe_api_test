@@ -1,8 +1,9 @@
-package com.spribe.yablonskyi.data;
+package com.spribe.yablonskyi.data.providers;
 
+import com.spribe.yablonskyi.data.Role;
 import org.testng.annotations.DataProvider;
 
-public class PositiveTestsDataProviders {
+public class PositiveDataProviders {
 
     @DataProvider(name = "editorsAndTargets", parallel = true)
     public Object[][] editorsAndTargets() {
