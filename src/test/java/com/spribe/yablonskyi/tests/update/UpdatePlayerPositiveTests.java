@@ -1,6 +1,5 @@
 package com.spribe.yablonskyi.tests.update;
 
-import com.spribe.yablonskyi.assertions.PlayerAssertions;
 import com.spribe.yablonskyi.base.BasePlayerTest;
 import com.spribe.yablonskyi.data.Role;
 import com.spribe.yablonskyi.data.providers.PositiveDataProviders;

@@ -53,6 +53,11 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
         } else {
             log.logHeader("STARTED: " + methodName, LogLevel.INFO);
         }
+        String testDescription = result.getMethod().getDescription();
+        if (testDescription != null && !testDescription.isBlank()) {
+            log.info("Description: " + testDescription);
+        }
+        tryLogDescription(result);
         tryLogTestParameters(result);
     }
 
@@ -87,6 +92,13 @@ public class GlobalTestListener extends AllureTestNg implements ITestListener, I
         String methodName = result.getMethod().getMethodName();
         log.logHeader("SKIPPED: " + methodName, LogLevel.WARN);
         BaseTest.setRerun(false);
+    }
+
+    private void tryLogDescription(ITestResult result) {
+        String testDescription = result.getMethod().getDescription();
+        if (testDescription != null && !testDescription.isBlank()) {
+            log.info("Test Description: " + testDescription);
+        }
     }
 
     private void tryLogTestParameters(ITestResult result) {

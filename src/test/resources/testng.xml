@@ -1,8 +1,4 @@
-<suite name="Players API Automation Suite"
-       verbose="2"
-       time-out="30000"
-       parallel="methods"
-       thread-count="${threads}">
+<suite name="Players API Automation Suite" verbose="2" time-out="30000">
 
     <listeners>
         <listener class-name="com.spribe.yablonskyi.listeners.RetryTransformer"/>
@@ -38,7 +34,7 @@
 
     <test name="Get All Players Tests">
         <classes>
-
+            <class name="com.spribe.yablonskyi.tests.getall.GetAllPlayersTests"/>
         </classes>
     </test>
 

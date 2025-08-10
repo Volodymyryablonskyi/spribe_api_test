@@ -4,8 +4,8 @@ import com.spribe.yablonskyi.constants.Constants;
 import com.spribe.yablonskyi.endpoints.PlayerEndpoints;
 import com.spribe.yablonskyi.http.request.HttpMethods;
 import com.spribe.yablonskyi.http.response.ResponseWrapper;
-import com.spribe.yablonskyi.pojo.GetPlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.DeletePlayerRequestPojo;
+import com.spribe.yablonskyi.pojo.GetPlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import com.spribe.yablonskyi.util.CustomLogger;
 import com.spribe.yablonskyi.util.PojoConverter;
@@ -28,6 +28,7 @@ public class PlayersApiClient extends BaseApiClient<PlayerEndpoints> {
     }
 
     public ResponseWrapper getPlayerById(GetPlayerRequestPojo request) {
+        log.info("Getting player with ID: {}", request.getPlayerId());
         return request(HttpMethods.POST, endpoints.getGetByIdUri(), request);
     }
 
@@ -36,16 +37,18 @@ public class PlayersApiClient extends BaseApiClient<PlayerEndpoints> {
     }
 
     public ResponseWrapper deletePlayer(String editor, DeletePlayerRequestPojo request) {
+        log.info("Deleting player with ID: {} as editor {}", request.getPlayerId(), editor);
         return request(HttpMethods.DELETE, endpoints.getDeleteUri(editor), request);
     }
 
     public ResponseWrapper updatePlayer(String editor, long id, PlayerRequestPojo request) {
+        log.info("Updating player with ID: {}", id);
         return request(HttpMethods.PATCH, endpoints.getUpdateUri(editor, id), request);
     }
 
     public ResponseWrapper getAllPlayers() {
+        log.info("Getting all players");
         return request(HttpMethods.GET, endpoints.getGetAllUri());
     }
-
 
 }

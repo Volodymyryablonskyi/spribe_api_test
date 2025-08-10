@@ -9,19 +9,16 @@ import com.spribe.yablonskyi.pojo.PlayerResponsePojo;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
 @Epic("Player Management")
 @Feature("Access Control")
-@Story("Role-based access to player operations")
 public class RolesPlayerAccessTests extends BasePlayerTest {
 
     @Test(alwaysRun = true,
             dataProvider = "createAccess",
             dataProviderClass = AccessDataProvider.class,
             groups = {"regression", "api", "api-players", "create-player-access"},
-            threadPoolSize = 3,
             description = "Checks access to CREATE users depending on editor and target roles")
     @Description("Only SUPERVISOR and ADMIN can create users (admin/user). USER must be forbidden.")
     public void verifyCreateAccessBasedOnEditorAndTargetRoles(Role editor, Role target, StatusCode expected) {
@@ -32,7 +29,6 @@ public class RolesPlayerAccessTests extends BasePlayerTest {
             dataProvider = "createRoleValidation",
             dataProviderClass = AccessDataProvider.class,
             groups = {"regression", "api", "api-players", "create-player-access"},
-            threadPoolSize = 3,
             description = "Validates that creating a SUPERVISOR is not allowed")
     @Description("Creating a user with SUPERVISOR role should fail with validation/permission error.")
     public void verifyCreateSupervisorRoleIsForbidden(Role editor, Role target, StatusCode expected) {
@@ -42,8 +38,7 @@ public class RolesPlayerAccessTests extends BasePlayerTest {
     @Test(alwaysRun = true,
             dataProvider = "updateAccess",
             dataProviderClass = AccessDataProvider.class,
-            groups = {"regression","api","api-players","update-player-access"},
-            threadPoolSize = 3,
+            groups = {"regression", "api", "api-players", "update-player-access"},
             description = "Checks access to UPDATE users depending on editor, target roles and self-flag")
     @Description("Supervisor can update anyone. Admin can update users and admin(self). User can update only self.")
     public void verifyUpdateAccessBasedOnEditorTargetAndSelf(Role editor, Role targetRole, boolean self, StatusCode expected) {
@@ -56,8 +51,7 @@ public class RolesPlayerAccessTests extends BasePlayerTest {
     @Test(alwaysRun = true,
             dataProvider = "deleteAccess",
             dataProviderClass = AccessDataProvider.class,
-            groups = {"regression","api","api-players","delete-player-access"},
-            threadPoolSize = 3,
+            groups = {"regression", "api", "api-players", "delete-player-access"},
             description = "Checks access to DELETE users depending on editor, target roles and self-flag")
     @Description("Supervisor can delete admin/user (not supervisor). Admin can delete user and admin(self). User cannot delete.")
     public void verifyDeleteAccessBasedOnEditorTargetAndSelf(Role editor, Role targetRole, boolean self, StatusCode expected) {

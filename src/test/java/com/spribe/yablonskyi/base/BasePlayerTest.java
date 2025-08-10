@@ -1,8 +1,5 @@
 package com.spribe.yablonskyi.base;
 
-import com.spribe.yablonskyi.assertions.Assertions;
-import com.spribe.yablonskyi.assertions.PlayerAssertions;
-import com.spribe.yablonskyi.assertions.PlayerVerifier;
 import com.spribe.yablonskyi.clients.PlayersApiClient;
 import com.spribe.yablonskyi.constants.Constants;
 import com.spribe.yablonskyi.data.PlayerDataGenerator;

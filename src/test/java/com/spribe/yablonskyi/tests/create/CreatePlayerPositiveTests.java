@@ -1,10 +1,9 @@
 package com.spribe.yablonskyi.tests.create;
 
-import com.spribe.yablonskyi.assertions.Assertions;
 import com.spribe.yablonskyi.assertions.PlayerVerifier;
 import com.spribe.yablonskyi.base.BasePlayerTest;
-import com.spribe.yablonskyi.data.providers.PositiveDataProviders;
 import com.spribe.yablonskyi.data.Role;
+import com.spribe.yablonskyi.data.providers.PositiveDataProviders;
 import com.spribe.yablonskyi.http.response.ResponseWrapper;
 import com.spribe.yablonskyi.http.response.StatusCode;
 import com.spribe.yablonskyi.pojo.PlayerRequestPojo;

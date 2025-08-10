@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 public class CreatePlayerNegativeTests extends BasePlayerTest {
 
-    // ---------- INVALID AGE -> 400 ----------
     @Test(alwaysRun = true,
             dataProvider = "invalidAges",
             dataProviderClass = NegativeDataProvider.class,
@@ -26,7 +25,6 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
         performCreateAndVerifyNotCreated(req, StatusCode._400_BAD_REQUEST);
     }
 
-    // ---------- INVALID GENDER -> 400 ----------
     @Test(alwaysRun = true,
             dataProvider = "invalidGenders",
             dataProviderClass = NegativeDataProvider.class,

@@ -1,11 +1,11 @@
 package com.spribe.yablonskyi.tests.getbyid;
 
+import com.spribe.yablonskyi.assertions.PlayerVerifier;
 import com.spribe.yablonskyi.base.BasePlayerTest;
 import com.spribe.yablonskyi.data.Role;
 import com.spribe.yablonskyi.http.response.StatusCode;
 import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.PlayerResponsePojo;
-import com.spribe.yablonskyi.assertions.PlayerVerifier;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
