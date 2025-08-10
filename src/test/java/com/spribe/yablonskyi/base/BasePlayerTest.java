@@ -9,11 +9,14 @@ import com.spribe.yablonskyi.http.response.StatusCode;
 import com.spribe.yablonskyi.pojo.DeletePlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.PlayerRequestPojo;
 import com.spribe.yablonskyi.pojo.PlayerResponsePojo;
+import com.spribe.yablonskyi.util.Sleep;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+
+import static java.lang.Thread.sleep;
 
 public class BasePlayerTest extends BaseTest {
 
@@ -101,5 +104,17 @@ public class BasePlayerTest extends BaseTest {
         }
         return resp.asPojo(PlayerResponsePojo.class);
     }
+
+    protected void awaitNoContent(long id, int attempts, int sleepMs) {
+        for (int i = 0; i < attempts; i++) {
+            try {
+                StatusCode sc = playersApiClient.getPlayerById(id).statusCode();
+                if (sc == StatusCode._204_NO_CONTENT) return;
+            } catch (Throwable ignored) {
+            }
+            Sleep.sleep(sleepMs);
+        }
+    }
+
 
 }

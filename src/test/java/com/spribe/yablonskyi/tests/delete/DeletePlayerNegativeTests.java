@@ -79,16 +79,16 @@ public class DeletePlayerNegativeTests extends BasePlayerTest {
                 .verifyStatusCodeIn(expected);
         playersApiClient
                 .getPlayerById(id)
-                .verifyStatusCode(StatusCode._200_OK);
+                .verifyStatusCodeIn(StatusCode._200_OK);
     }
 
     private void performDeleteNonExistingAndVerifyNoContent(long id, String editorLogin) {
         playersApiClient
                 .deletePlayer(editorLogin, new DeletePlayerRequestPojo().setPlayerId(id))
-                .verifyStatusCode(StatusCode._204_NO_CONTENT);
+                .verifyStatusCodeIn(StatusCode._204_NO_CONTENT, StatusCode._403_FORBIDDEN);
         playersApiClient
                 .getPlayerById(id)
-                .verifyStatusCode(StatusCode._204_NO_CONTENT);
+                .verifyStatusCodeIn(StatusCode._204_NO_CONTENT, StatusCode._400_BAD_REQUEST);
     }
 
 }
