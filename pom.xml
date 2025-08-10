@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.spribe.yablonskyi</groupId>
@@ -9,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,8 +20,10 @@
         <jackson.version>2.19.2</jackson.version>
         <io.vavr.version>0.10.7</io.vavr.version>
         <allure.version>2.29.1</allure.version>
-    </properties>
+        <base.uri>http://3.68.165.45</base.uri>
+        <threads>3</threads>
 
+    </properties>
 
     <dependencies>
 
@@ -33,24 +37,16 @@
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>${rest.assured.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.17</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.5.18</version>
-            <scope>compile</scope>
-        </dependency>
-
+        </dependency
+        >
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>json-path</artifactId>
+            <version>${rest.assured.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
             <version>${rest.assured.version}</version>
         </dependency>
 
@@ -67,9 +63,16 @@
         </dependency>
 
         <dependency>
-            <groupId>io.vavr</groupId>
-            <artifactId>vavr</artifactId>
-            <version>${io.vavr.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.5.18</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -79,7 +82,6 @@
         </dependency>
 
     </dependencies>
-
 
     <build>
         <plugins>
@@ -92,6 +94,7 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
 
@@ -105,8 +108,24 @@
                     </suiteXmlFiles>
                     <testFailureIgnore>false</testFailureIgnore>
                     <systemPropertyVariables>
+                        <retry.count>1</retry.count>
                         <allure.results.directory>target/allure-results</allure.results.directory>
+                        <threads>${threads}</threads>
                     </systemPropertyVariables>
+                    <properties>
+                        <property>
+                            <name>parallel</name>
+                            <value>methods</value>
+                        </property>
+                        <property>
+                            <name>threadCount</name>
+                            <value>${threads}</value>
+                        </property>
+                        <property>
+                            <name>timeOut</name>
+                            <value>30000</value>
+                        </property>
+                    </properties>
                 </configuration>
             </plugin>
 
@@ -118,6 +137,5 @@
 
         </plugins>
     </build>
-
 
 </project>

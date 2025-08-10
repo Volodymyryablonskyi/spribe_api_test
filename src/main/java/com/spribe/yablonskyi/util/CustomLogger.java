@@ -6,6 +6,7 @@ import io.qameta.allure.Allure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -28,6 +29,12 @@ public class CustomLogger {
     public static CustomLogger getLogger(Class<?> clazz) {
         return new CustomLogger(clazz, true);
     }
+
+    public void info(String message) {
+        logger.info(message);
+        logAllure(message);
+    }
+
 
     public void info(String message, Object... args) {
         logger.info(message, args);
@@ -54,28 +61,39 @@ public class CustomLogger {
         logAllure(message + ": " + throwable.getMessage());
     }
 
-    public void logRequest(HttpMethods method, String endpoint, Object body) {
-        String pretty = JsonConverter.prettifyJson(body);
-        info("Sending {} request to: {}", method, endpoint);
-        info("Request body:\n{}", pretty);
+    public void logRequest(HttpMethods method, String uri, Map<String, String> queryParams, Object body) {
+        info("Sending {} request to: {}", method, uri);
+        if (!Objects.isNull(queryParams) && !queryParams.isEmpty()) {
+            info(formatQueryParams(queryParams));
+        }
+        if (!Objects.isNull(body)) {
+            String pretty = JsonConverter.prettifyJson(body);
+            info("Request body:\n{}", pretty);
+        }
     }
 
-    public void logRequest(HttpMethods method, String endpoint) {
-        info("Sending {} request to: {}", method, endpoint);
+
+    private String formatQueryParams(Map<String, String> queryParams) {
+        StringBuilder sb = new StringBuilder("Query parameters:\n");
+        queryParams.forEach((key, value) ->
+                sb.append("  ").append(key).append(" = ").append(value).append("\n")
+        );
+        return sb.toString().trim();
     }
 
     public void logResponse(ResponseWrapper response) {
         if (Objects.isNull(response)) {
             logger.warn("Received response - null");
-            Allure.step("Received response - null");
+            if (allowAllure) Allure.step("Received response - null");
             return;
         }
-        int status = response.statusCode();
+        var status = response.statusCode();
         String pretty = JsonConverter.prettifyJson(response.getBodyAsString());
         String limited = pretty.length() > MAX_LOG_BODY_LENGTH
                 ? pretty.substring(0, MAX_LOG_BODY_LENGTH) + "... [truncated]"
                 : pretty;
-        info("Response status: {}", status);
+
+        info("Response status: {} ({})", status.getCode(), status.name());
         info("Response body:\n{}", limited);
     }
 
@@ -89,6 +107,16 @@ public class CustomLogger {
         }
     }
 
+    public void logParams(Map<String, Object> params) {
+        if (params == null || params.isEmpty()) return;
+        logger.info("Test parameters:");
+        params.forEach((key, value) -> {
+            String val = value == null ? "null" : value.toString();
+            logger.info("  {} = {}", key, val);
+            if (allowAllure) Allure.parameter(key, val);
+        });
+    }
+
     private String format(String message, Object... args) {
         if (args == null) return message;
         for (Object arg : args) {
@@ -97,12 +125,12 @@ public class CustomLogger {
         return message;
     }
 
-     public void logHeader(String message, LogLevel level) {
+    public void logHeader(String message, LogLevel level) {
         String formatted = "----------- " + message + " -----------";
         switch (level) {
-            case LogLevel.INFO -> info(formatted);
-            case LogLevel.WARN -> warn(formatted);
-            case LogLevel.ERROR -> error(formatted);
+            case INFO  -> info(formatted);
+            case WARN  -> warn(formatted);
+            case ERROR -> error(formatted);
         }
     }
 

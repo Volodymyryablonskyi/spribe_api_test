@@ -12,10 +12,12 @@ import java.util.Map;
 public class BaseApiClient<T extends BaseEndpoints> {
 
     protected final RequestSpecification spec;
+    protected String baseUri;
     protected T endpoints;
 
-    protected BaseApiClient(RequestSpecification spec, T endpoints) {
+    protected BaseApiClient(RequestSpecification spec, String baseUri, T endpoints) {
         this.spec = spec;
+        this.baseUri = baseUri;
         this.endpoints = endpoints;
     }
 
@@ -30,7 +32,7 @@ public class BaseApiClient<T extends BaseEndpoints> {
     protected ResponseWrapper request(HttpMethods method, String path, Object body,
                                       Map<String, String> queryParams, Map<String, String> headers) {
 
-        Response response = new RequestBuilder(spec)
+        Response response = new RequestBuilder(spec, baseUri)
                 .withMethod(method)
                 .withPath(path)
                 .withBody(body)
@@ -41,12 +43,5 @@ public class BaseApiClient<T extends BaseEndpoints> {
         return ResponseWrapper.of(response);
     }
 
-    private T createEndpoints(Class<T> cls) {
-        try {
-            return cls.getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create endpoints instance", e);
-        }
-    }
 
 }

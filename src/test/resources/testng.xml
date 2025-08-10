@@ -1,10 +1,47 @@
-<suite name="Players API Automation Suite"
-       verbose="2"
-       time-out="30000"
-       parallel="methods"
-       thread-count="3">
+<suite name="Players API Automation Suite" verbose="2" time-out="30000">
 
+    <listeners>
+        <listener class-name="com.spribe.yablonskyi.listeners.GlobalTestListener"/>
+    </listeners>
 
+    <test name="Editor Access Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.access.RolesPlayerAccessTests"/>;
+        </classes>
+    </test>
 
+    <test name="Create Player Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.create.CreatePlayerPositiveTests"/>
+            <class name="com.spribe.yablonskyi.tests.create.CreatePlayerNegativeTests"/>
+        </classes>
+    </test>
+
+    <test name="Delete Player Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.delete.DeletePlayerPositiveTests"/>
+            <class name="com.spribe.yablonskyi.tests.delete.DeletePlayerNegativeTests"/>
+        </classes>
+    </test>
+
+    <test name="Update Player Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.update.UpdatePlayerPositiveTests"/>
+            <class name="com.spribe.yablonskyi.tests.update.UpdatePlayerNegativeTests"/>
+        </classes>
+    </test>
+
+    <test name="Get All Players Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.getall.GetAllPlayersTests"/>
+        </classes>
+    </test>
+
+    <test name="Get Player Tests">
+        <classes>
+            <class name="com.spribe.yablonskyi.tests.getbyid.GetPlayerByIdPositiveTests"/>
+            <class name="com.spribe.yablonskyi.tests.getbyid.GetPlayerByIdNegativeTests"/>
+        </classes>
+    </test>
 
 </suite>

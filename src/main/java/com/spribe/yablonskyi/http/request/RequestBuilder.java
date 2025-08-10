@@ -1,5 +1,7 @@
 package com.spribe.yablonskyi.http.request;
 
+import com.spribe.yablonskyi.util.CustomLogger;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
@@ -9,15 +11,19 @@ import java.util.Objects;
 
 public class RequestBuilder {
 
+    private final CustomLogger log = CustomLogger.getLogger(RequestBuilder.class);
+
     private final RequestSpecification spec;
     private final Map<String, String> queryParams = new HashMap<>();
     private final Map<String, String> headers = new HashMap<>();
+    private String baseUri;
     private HttpMethods method;
     private String path;
     private Object body;
 
-    public RequestBuilder(RequestSpecification spec) {
+    public RequestBuilder(RequestSpecification spec, String baseUri) {
         this.spec = spec;
+        this.baseUri = baseUri;
     }
 
     public RequestBuilder withMethod(HttpMethods method) {
@@ -35,7 +41,7 @@ public class RequestBuilder {
         return this;
     }
 
-    public RequestBuilder withQuery(String key, String value) {
+    public RequestBuilder withQueryParam(String key, String value) {
         this.queryParams.put(key, value);
         return this;
     }
@@ -60,16 +66,15 @@ public class RequestBuilder {
     }
 
     public Response send() {
-        RequestSpecification request = spec;
-        if (!queryParams.isEmpty()) {
-            request = request.queryParams(queryParams);
+        if (path == null) {
+            throw new IllegalArgumentException("URI Path value is null");
         }
-        if (!headers.isEmpty()) {
-            request = request.headers(headers);
-        }
-        if (!Objects.isNull(body)) {
-            request = request.body(body);
-        }
+        String fullUri = baseUri + path;
+        var request = RestAssured.given().spec(spec);
+        if (!queryParams.isEmpty()) request.queryParams(queryParams);
+        if (!headers.isEmpty()) request.headers(headers);
+        if (!Objects.isNull(body)) request.body(body);
+        log.logRequest(method, fullUri, queryParams, body);
         return switch (method) {
             case GET -> request.get(path);
             case POST -> request.post(path);
@@ -78,6 +83,5 @@ public class RequestBuilder {
             case DELETE -> request.delete(path);
         };
     }
-
 
 }

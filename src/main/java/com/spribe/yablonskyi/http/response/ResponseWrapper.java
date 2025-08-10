@@ -3,7 +3,9 @@ package com.spribe.yablonskyi.http.response;
 import com.spribe.yablonskyi.util.CustomLogger;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import org.testng.Assert;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ResponseWrapper {
@@ -30,6 +32,11 @@ public class ResponseWrapper {
         return response.jsonPath();
     }
 
+
+    public <T> T getJsonValue(String jsonPath, Class<T> clazz) {
+        return getJsonPath().getObject(jsonPath, clazz);
+    }
+
     public <T> T asPojo(Class<T> clz) {
         return response.as(clz);
     }
@@ -38,11 +45,19 @@ public class ResponseWrapper {
         return response.jsonPath().getList("$", clz);
     }
 
+    public Long getId() {
+        return getJsonValue("id", Long.class);
+    }
+
     public String getBodyAsString() {
         return response.body().asString();
     }
 
-    public int statusCode() {
+    public StatusCode statusCode() {
+        return StatusCode.parseToCode(getStatusCodeInt());
+    }
+
+    public int getStatusCodeInt() {
         return response.getStatusCode();
     }
 
@@ -61,5 +76,19 @@ public class ResponseWrapper {
         return new ResponseWrapper(null);
     }
 
+    public ResponseWrapper verifyStatusCode(StatusCode expected)  {
+        log.info("Verify that Response status code is equal to - {}", expected);
+        StatusCode actual = statusCode();
+        Assert.assertEquals(actual, expected, "Status Code mismatch - expected " + expected + " but got " + actual);
+        return this;
+    }
+
+    public ResponseWrapper verifyStatusCodeIn(StatusCode... expectedStatusCodes) {
+        StatusCode actual = statusCode();
+        log.info("Verify that Response status code is in {}", Arrays.toString(expectedStatusCodes));
+        boolean found = Arrays.asList(expectedStatusCodes).contains(actual);
+        Assert.assertTrue(found, "Status code " + actual + " is not in " + Arrays.toString(expectedStatusCodes));
+        return this;
+    }
 
 }
