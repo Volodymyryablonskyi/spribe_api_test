@@ -45,13 +45,6 @@ src/
     testng.xml          # Suite (parallel=methods via Surefire)
 ```
 
-Key features:
-- **Thread-safe** data generators & cleanup via `ThreadLocal` and `@AfterMethod`.
-- **Helpers** like `awaitNoContent(...)` and “get-all until appears” to handle eventual consistency.
-- **Minimal client** + **ResponseWrapper** with readable status checks.
-
----
-
 ## How to run
 
 ### 1) Default run (single thread)

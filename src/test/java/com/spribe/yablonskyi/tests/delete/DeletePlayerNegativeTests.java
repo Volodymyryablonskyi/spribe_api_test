@@ -23,7 +23,7 @@ public class DeletePlayerNegativeTests extends BasePlayerTest {
     @Description("Per rules, admin may operate on admin only if it is himself. Deleting another admin must be forbidden.")
     public void verifyAdminCannotDeleteAnotherAdmin() {
         PlayerResponsePojo targetAdmin = createUser(Role.ADMIN);
-        performDeleteAndVerifyNotDeleted(targetAdmin.getId(), ADMIN, StatusCode._403_FORBIDDEN, StatusCode._400_BAD_REQUEST);
+        performDeleteAndVerifyNotDeleted(targetAdmin.getId(), ADMIN, StatusCode.STATUS_403_FORBIDDEN, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -32,7 +32,7 @@ public class DeletePlayerNegativeTests extends BasePlayerTest {
     @Description("User is not allowed to delete at all, including self-delete.")
     public void verifyUserCannotDeleteSelf() {
         PlayerResponsePojo user = createUser(Role.USER, ADMIN);
-        performDeleteAndVerifyNotDeleted(user.getId(), user.getLogin(), StatusCode._403_FORBIDDEN, StatusCode._400_BAD_REQUEST);
+        performDeleteAndVerifyNotDeleted(user.getId(), user.getLogin(), StatusCode.STATUS_403_FORBIDDEN, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -42,7 +42,7 @@ public class DeletePlayerNegativeTests extends BasePlayerTest {
     public void verifyUserCannotDeleteAnotherUser() {
         PlayerResponsePojo targetUser = createUser(Role.USER, ADMIN);
         PlayerResponsePojo editorUser = createUser(Role.USER, ADMIN);
-        performDeleteAndVerifyNotDeleted(targetUser.getId(), editorUser.getLogin(), StatusCode._403_FORBIDDEN, StatusCode._400_BAD_REQUEST);
+        performDeleteAndVerifyNotDeleted(targetUser.getId(), editorUser.getLogin(), StatusCode.STATUS_403_FORBIDDEN, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -51,7 +51,7 @@ public class DeletePlayerNegativeTests extends BasePlayerTest {
     @Description("playerId is required and must be >0.")
     public void verifyDeleteRejectsZeroPlayerId() {
         DeletePlayerRequestPojo bad = new DeletePlayerRequestPojo().setPlayerId(0);
-        playersApiClient.deletePlayer(ADMIN, bad).verifyStatusCodeIn(StatusCode._403_FORBIDDEN, StatusCode._400_BAD_REQUEST);
+        playersApiClient.deletePlayer(ADMIN, bad).verifyStatusCodeIn(StatusCode.STATUS_403_FORBIDDEN, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -60,7 +60,7 @@ public class DeletePlayerNegativeTests extends BasePlayerTest {
     @Description("playerId must be a positive number.")
     public void verifyDeleteRejectsNegativePlayerId() {
         DeletePlayerRequestPojo bad = new DeletePlayerRequestPojo().setPlayerId(-1);
-        playersApiClient.deletePlayer(ADMIN, bad).verifyStatusCodeIn(StatusCode._403_FORBIDDEN, StatusCode._400_BAD_REQUEST);
+        playersApiClient.deletePlayer(ADMIN, bad).verifyStatusCodeIn(StatusCode.STATUS_403_FORBIDDEN, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -78,16 +78,16 @@ public class DeletePlayerNegativeTests extends BasePlayerTest {
                 .verifyStatusCodeIn(expected);
         playersApiClient
                 .getPlayerById(id)
-                .verifyStatusCodeIn(StatusCode._200_OK);
+                .verifyStatusCodeIn(StatusCode.STATUS_200_OK);
     }
 
     private void performDeleteNonExistingAndVerifyNoContent(long id, String editorLogin) {
         playersApiClient
                 .deletePlayer(editorLogin, new DeletePlayerRequestPojo().setPlayerId(id))
-                .verifyStatusCodeIn(StatusCode._204_NO_CONTENT, StatusCode._403_FORBIDDEN);
+                .verifyStatusCodeIn(StatusCode.STATUS_204_NO_CONTENT, StatusCode.STATUS_403_FORBIDDEN);
         playersApiClient
                 .getPlayerById(id)
-                .verifyStatusCodeIn(StatusCode._204_NO_CONTENT, StatusCode._400_BAD_REQUEST);
+                .verifyStatusCodeIn(StatusCode.STATUS_204_NO_CONTENT, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
 }

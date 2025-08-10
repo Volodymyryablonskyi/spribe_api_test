@@ -26,7 +26,7 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
     public void verifyCreateRejectsInvalidAge(String badAge) {
         PlayerRequestPojo req = playersDataGenerator.get()
                 .generateValidPlayerWithAge(Role.USER.getLogin(), badAge);
-        performCreateAndVerifyNotCreated(req, StatusCode._400_BAD_REQUEST);
+        performCreateAndVerifyNotCreated(req, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -38,7 +38,7 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
     public void verifyCreateRejectsInvalidGender(String badGender) {
         PlayerRequestPojo req = playersDataGenerator.get()
                 .generateValidPlayerWithGender(Role.USER.getLogin(), badGender);
-        performCreateAndVerifyNotCreated(req, StatusCode._400_BAD_REQUEST);
+        performCreateAndVerifyNotCreated(req, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -51,7 +51,7 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
         PlayerRequestPojo req = playersDataGenerator.get()
                 .generateValidPlayer(Role.USER.getLogin())
                 .setPassword(badPassword);
-        performCreateAndVerifyNotCreated(req, StatusCode._400_BAD_REQUEST);
+        performCreateAndVerifyNotCreated(req, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -63,7 +63,7 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
     public void verifyCreateRejectsInvalidRole(String badRole) {
         PlayerRequestPojo req = playersDataGenerator.get()
                 .generateValidPlayer(badRole);
-        performCreateAndVerifyNotCreated(req, StatusCode._400_BAD_REQUEST);
+        performCreateAndVerifyNotCreated(req, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -84,7 +84,7 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
             default -> throw new IllegalArgumentException("Unknown required field: " + missingField);
         }
 
-        performCreateAndVerifyNotCreated(req, StatusCode._400_BAD_REQUEST);
+        performCreateAndVerifyNotCreated(req, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -97,7 +97,7 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
         PlayerRequestPojo dup = playersDataGenerator.get()
                 .generateValidPlayer(Role.USER.getLogin())
                 .setLogin(base.getLogin());
-        performCreateAndVerifyNotCreated(dup, StatusCode._409_CONFLICT);
+        performCreateAndVerifyNotCreated(dup, StatusCode.STATUS_409_CONFLICT);
     }
 
     @Test(alwaysRun = true,
@@ -110,12 +110,12 @@ public class CreatePlayerNegativeTests extends BasePlayerTest {
         PlayerRequestPojo dup = playersDataGenerator.get()
                 .generateValidPlayer(Role.USER.getLogin())
                 .setScreenName(base.getScreenName());
-        performCreateAndVerifyNotCreated(dup, StatusCode._409_CONFLICT);
+        performCreateAndVerifyNotCreated(dup, StatusCode.STATUS_409_CONFLICT);
     }
 
     private void performCreateAndVerifyNotCreated(PlayerRequestPojo req, StatusCode expected) {
         ResponseWrapper resp = playersApiClient.createPlayer(ADMIN, req);
-        if (resp.statusCode() == StatusCode._200_OK || resp.statusCode() == StatusCode._201_CREATED) {
+        if (resp.statusCode() == StatusCode.STATUS_200_OK || resp.statusCode() == StatusCode.STATUS_201_CREATED) {
             Long id = resp.getId();
             if (id != null && id > 0) {
                 try {

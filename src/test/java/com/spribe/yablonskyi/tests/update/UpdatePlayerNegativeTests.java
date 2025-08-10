@@ -29,7 +29,7 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
     public void verifyUpdateRejectsInvalidAges(String badAge) {
         PlayerResponsePojo before = createUser(Role.USER, ADMIN);
         PlayerRequestPojo partial = new PlayerRequestPojo().setAge(badAge);
-        performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode._400_BAD_REQUEST);
+        performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -41,7 +41,7 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
     public void verifyUpdateRejectsInvalidGenders(String badGender) {
         PlayerResponsePojo before = createUser(Role.USER, ADMIN);
         PlayerRequestPojo partial = new PlayerRequestPojo().setGender(badGender);
-        performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode._400_BAD_REQUEST);
+        performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -53,7 +53,7 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
     public void verifyUpdateRejectsInvalidPasswords(String badPassword) {
         PlayerResponsePojo before = createUser(Role.USER, ADMIN);
         PlayerRequestPojo partial = new PlayerRequestPojo().setPassword(badPassword);
-        performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode._400_BAD_REQUEST);
+        performUpdateAndVerifyNotUpdated(before.getId(), ADMIN, before, partial, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -64,7 +64,7 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
         PlayerResponsePojo userA = createUser(Role.USER, ADMIN);
         PlayerResponsePojo userB = createUser(Role.USER, ADMIN);
         PlayerRequestPojo partial = new PlayerRequestPojo().setLogin(userA.getLogin());
-        performUpdateAndVerifyNotUpdated(userB.getId(), ADMIN, userB, partial, StatusCode._409_CONFLICT);
+        performUpdateAndVerifyNotUpdated(userB.getId(), ADMIN, userB, partial, StatusCode.STATUS_409_CONFLICT);
     }
 
     @Test(alwaysRun = true,
@@ -75,7 +75,7 @@ public class UpdatePlayerNegativeTests extends BasePlayerTest {
         PlayerResponsePojo userA = createUser(Role.USER, ADMIN);
         PlayerResponsePojo userB = createUser(Role.USER, ADMIN);
         PlayerRequestPojo partial = new PlayerRequestPojo().setScreenName(userA.getScreenName());
-        performUpdateAndVerifyNotUpdated(userB.getId(), ADMIN, userB, partial, StatusCode._409_CONFLICT);
+        performUpdateAndVerifyNotUpdated(userB.getId(), ADMIN, userB, partial, StatusCode.STATUS_409_CONFLICT);
     }
 
     protected ResponseWrapper performUpdateAndVerifyNotUpdated(long id, String editorLogin, PlayerResponsePojo before, PlayerRequestPojo partial, StatusCode expected) {

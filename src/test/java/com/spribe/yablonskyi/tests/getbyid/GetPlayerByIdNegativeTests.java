@@ -38,7 +38,7 @@ public class GetPlayerByIdNegativeTests extends BasePlayerTest {
     public void verifyGetByIdReturnsNoContentForNonExistingId() {
         long nonExistingId = Randomizer.getRandomNumberInRange(800_000_000, 2_100_000_000);
         playersApiClient.getPlayerById(nonExistingId)
-                .verifyStatusCodeIn(StatusCode._204_NO_CONTENT, StatusCode._400_BAD_REQUEST);
+                .verifyStatusCodeIn(StatusCode.STATUS_204_NO_CONTENT, StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     @Test(alwaysRun = true,
@@ -49,13 +49,13 @@ public class GetPlayerByIdNegativeTests extends BasePlayerTest {
     @Description("IDs must be positive. Zero/negative -> 400.")
     public void verifyGetByIdRejectsInvalidIds(long badId) {
         playersApiClient.getPlayerById(badId)
-                .verifyStatusCode(StatusCode._400_BAD_REQUEST);
+                .verifyStatusCode(StatusCode.STATUS_400_BAD_REQUEST);
     }
 
     private void tryDeleteOrSkip(long id, String... editors) {
         for (String editor : editors) {
             ResponseWrapper r = playersApiClient.deletePlayer(editor, new DeletePlayerRequestPojo().setPlayerId(id));
-            if (r.statusCode() == StatusCode._200_OK || r.statusCode() == StatusCode._204_NO_CONTENT) return;
+            if (r.statusCode() == StatusCode.STATUS_200_OK || r.statusCode() == StatusCode.STATUS_204_NO_CONTENT) return;
         }
         throw new SkipException("Delete denied for id=" + id + " by all editors");
     }

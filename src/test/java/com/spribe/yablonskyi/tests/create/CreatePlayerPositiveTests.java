@@ -28,7 +28,7 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
                 .generateValidPlayer(editor.getLogin())
                 .setRole(targetRole.name().toLowerCase());
         ResponseWrapper resp = createUser(editor.getLogin(), req)
-                .verifyStatusCodeIn(StatusCode._200_OK, StatusCode._201_CREATED);
+                .verifyStatusCodeIn(StatusCode.STATUS_200_OK, StatusCode.STATUS_201_CREATED);
         PlayerResponsePojo actual = fetchPlayer(resp.getId());
         PlayerVerifier.verifyMatches(req, actual);
     }
@@ -81,13 +81,13 @@ public class CreatePlayerPositiveTests extends BasePlayerTest {
     }
 
     private void performCreateAndVerifyCreated(PlayerRequestPojo expected) {
-        ResponseWrapper resp = createAsAdmin(expected).verifyStatusCodeIn(StatusCode._200_OK, StatusCode._201_CREATED);
+        ResponseWrapper resp = createAsAdmin(expected).verifyStatusCodeIn(StatusCode.STATUS_200_OK, StatusCode.STATUS_201_CREATED);
         verifyPlayerCreatedCorrectly(expected, resp.getId());
     }
 
     private void verifyPlayerCreatedCorrectly(PlayerRequestPojo expected, long id) {
         ResponseWrapper getResp = playersApiClient.getPlayerById(id);
-        if (!getResp.statusCode().equals(StatusCode._200_OK)) {
+        if (!getResp.statusCode().equals(StatusCode.STATUS_200_OK)) {
             throw new AssertionError("GET by id failed. code=" + getResp.statusCode() + " body=" + getResp.asString());
         }
         PlayerResponsePojo actual = getResp.asPojo(PlayerResponsePojo.class);

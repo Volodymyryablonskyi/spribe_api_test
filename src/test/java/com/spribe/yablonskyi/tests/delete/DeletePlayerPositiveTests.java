@@ -56,7 +56,7 @@ public class DeletePlayerPositiveTests extends BasePlayerTest {
     private void performDeleteAndVerifyDeleted(long id, String editorLogin) {
         ResponseWrapper del = playersApiClient.deletePlayer(
                 editorLogin, new DeletePlayerRequestPojo().setPlayerId(id));
-        del.verifyStatusCodeIn(StatusCode._200_OK, StatusCode._204_NO_CONTENT);
+        del.verifyStatusCodeIn(StatusCode.STATUS_200_OK, StatusCode.STATUS_204_NO_CONTENT);
         awaitNoContent(id, 10, 250);
     }
 

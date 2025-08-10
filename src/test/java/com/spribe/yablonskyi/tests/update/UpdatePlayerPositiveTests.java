@@ -91,7 +91,7 @@ public class UpdatePlayerPositiveTests extends BasePlayerTest {
 
     protected void performUpdateAndVerify(long id, String editorLogin, PlayerResponsePojo before, PlayerRequestPojo partial) {
         callUpdate(id, editorLogin, partial)
-                .verifyStatusCodeIn(StatusCode._200_OK, StatusCode._204_NO_CONTENT);
+                .verifyStatusCodeIn(StatusCode.STATUS_200_OK, StatusCode.STATUS_204_NO_CONTENT);
         verifyUpdateApplied(id, before, partial);
     }
 

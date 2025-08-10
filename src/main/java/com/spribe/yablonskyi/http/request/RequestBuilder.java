@@ -41,20 +41,10 @@ public class RequestBuilder {
         return this;
     }
 
-    public RequestBuilder withQueryParam(String key, String value) {
-        this.queryParams.put(key, value);
-        return this;
-    }
-
     public RequestBuilder withQueryParams(Map<String, String> queryParams) {
         if (!Objects.isNull(queryParams)) {
             this.queryParams.putAll(queryParams);
         }
-        return this;
-    }
-
-    public RequestBuilder withHeader(String key, String value) {
-        this.headers.put(key, value);
         return this;
     }
 

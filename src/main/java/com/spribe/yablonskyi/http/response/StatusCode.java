@@ -2,14 +2,14 @@ package com.spribe.yablonskyi.http.response;
 
 public enum StatusCode {
 
-    _200_OK(200),
-    _201_CREATED(201),
-    _204_NO_CONTENT(204),
-    _400_BAD_REQUEST(400),
-    _401_UNAUTHORIZED(401),
-    _403_FORBIDDEN(403),
-    _404_NOT_FOUND(404),
-    _409_CONFLICT(409);
+    STATUS_200_OK(200),
+    STATUS_201_CREATED(201),
+    STATUS_204_NO_CONTENT(204),
+    STATUS_400_BAD_REQUEST(400),
+    STATUS_401_UNAUTHORIZED(401),
+    STATUS_403_FORBIDDEN(403),
+    STATUS_404_NOT_FOUND(404),
+    STATUS_409_CONFLICT(409);
 
     private final int code;
 
