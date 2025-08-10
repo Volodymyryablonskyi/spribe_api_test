@@ -111,10 +111,10 @@ allure open target/allure-report
 
 All settings are exposed via **system properties** (Maven `-D`):
 
-| Property      | What it does                                    | Default (pom) |
-|---------------|--------------------------------------------------|----------------|
-| `base.uri`    | Target API base URL                              | from `Constants.BASE_URI` |
-| `threads`     | TestNG/Surefire `threadCount` (parallel=methods) | `1`            |
+| Property      | What it does                                    | Default (pom)                 |
+|---------------|--------------------------------------------------|-------------------------------|
+| `base.uri`    | Target API base URL                              | from `application.properties` |
+| `threads`     | TestNG/Surefire `threadCount` (parallel=methods) | `3`                           |
 
 Example:
 ```bash
